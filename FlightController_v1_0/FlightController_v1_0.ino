@@ -55,6 +55,7 @@ uint8_t wysokosc = 0; // Wysokosc drona
 //---- Zmienne programu ----
 bool stan_sygnalu = true; // false - nie ma polaczenia z pilotem, true - jest polaczenie
 uint32_t timer = 0;
+uint32_t timerPrev = 0;
 double dt_;
 
 float pitch = 0;
@@ -93,7 +94,7 @@ void loop()
 {
 if (stan_sygnalu == true)
 {
-	read_angles();
+	read_RPY();
 	stabilize();
 	
 }
@@ -107,8 +108,12 @@ else
 ////////////////////////////////////////////////////////////////////// ====== END LOOP ======
 
 
-void read_angles()
+void read_RPY() // Read roll, pitch, yaw
 {
+	timerPrev = timer;
+	timer = micros();
+	dt_ = float(timer - timerPrev) / 1000000.0;
+	
 	// Read normalized values
 	Vector norm = mpu.readNormalizeGyro();
 	Vector normAccel = mpu.readNormalizeAccel();
@@ -122,13 +127,9 @@ void read_angles()
 	pitchAcc = -(atan2(normAccel.XAxis, sqrt(normAccel.YAxis*normAccel.YAxis + normAccel.ZAxis*normAccel.ZAxis))*180.0)/M_PI;
 	rollAcc = (atan2(normAccel.YAxis, normAccel.ZAxis)*180.0)/M_PI;
 	
-	dt_ = ((double)(micros()-timer)/1000000);
-	
 	//-- Filtr komplementarny --
 	pitch = 0.98*pitch + 0.02*pitchAcc;
 	roll = 0.98*roll + 0.02*rollAcc;
-	
-	timer = micros();
 }
 
 

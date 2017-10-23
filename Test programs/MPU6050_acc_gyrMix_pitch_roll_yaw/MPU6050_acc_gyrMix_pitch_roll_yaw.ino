@@ -13,6 +13,7 @@ MPU6050 mpu;
 
 // Timers
 unsigned long timer = 0;
+unsigned long timerPrev = 0;
 float timeStep = 0.01;
 
 // Pitch, Roll and Yaw values
@@ -36,16 +37,18 @@ void setup()
   
   // Calibrate gyroscope. The calibration must be at rest.
   // If you don't want calibrate, comment this line.
-  mpu.calibrateGyro();
+  //mpu.calibrateGyro();
 
   // Set threshold sensivty. Default 3.
   // If you don't want use threshold, comment this line or set 0.
-  mpu.setThreshold(3);
+  //mpu.setThreshold(3);
 }
 
 void loop()
 {
-  timer = millis();
+  timerPrev = timer;
+  timer = micros();
+  timeStep = float(timer - timerPrev) / 1000000.0;
 
   // Read normalized values
   Vector norm = mpu.readNormalizeGyro();
@@ -80,5 +83,5 @@ void loop()
   Serial.println(rollAcc);*/
 
   // Wait to full timeStep period
-  delay((timeStep*1000) - (millis() - timer));
+  //delay((timeStep*1000) - (millis() - timer));
 }
