@@ -224,3 +224,4 @@ pip-log.txt
 *.atsuo
 *.cppproj
 *.xml
+*.atsln
