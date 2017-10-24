@@ -44,6 +44,8 @@ void KomunikacjaClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 	{
 		flight_mode = bufferR[2];
 		dodatkoweRx.bajt = bufferR[3];
+		
+		setRxBitByte(); // Przepisanie typów bitowych do zmiennych
 	}
 }
 
@@ -51,6 +53,8 @@ void KomunikacjaClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 
 void KomunikacjaClass::wyslij()
 {
+	setTxBitByte(); // przypisz do zmiennych bitbyte, odpowienne zmienne
+	
 	buforT[1] = dodatkoweTx.bajt;
 	buforT[2] = battery_level;
 	buforT[3] = wysokosc;
@@ -81,5 +85,31 @@ uint8_t KomunikacjaClass::liczSumeKontr(const uint8_t* buffer, size_t PacketSize
 	suma_kontrolna ^= buffer[i];	//xor'owanie kolejnych bajt?w
 
 	return suma_kontrolna;
+}
+
+
+
+// ====== SPRAWDZENIA ======
+
+bool KomunikacjaClass::isSignal()
+{
+	if (pilot_ping_state == last_pilot_ping_state)
+		return false;
+	last_pilot_ping_state = pilot_ping_state;
+	return true;
+}
+
+
+
+void KomunikacjaClass::setRxBitByte()
+{
+	pilot_ping_state = dodatkoweRx.b7;
+	//reszta...
+}
+
+
+void KomunikacjaClass::setTxBitByte()
+{
+	//reszta...
 }
 

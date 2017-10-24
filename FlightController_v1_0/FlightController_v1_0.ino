@@ -20,10 +20,10 @@ MPU6050 mpu;
 
 
 //---- Zmienne programu ----
-bool stan_sygnalu = true; // false - nie ma polaczenia z pilotem, true - jest polaczenie
 uint32_t timer = 0;
 uint32_t timerPrev = 0;
-double dt_;
+double dt_; // Delta time (czas wykonywania programu)
+bool stan_sygnalu = false; // false - nie ma polaczenia z pilotem, true - jest polaczenie
 
 float pitch = 0;
 float roll = 0;
@@ -52,16 +52,18 @@ void setup()
 
 void loop()
 {
-if (stan_sygnalu == true)
-{
-	read_RPY();
-	stabilize();
+	stan_sygnalu = komun.isSignal(); // sprawdzanie po³¹czenia
 	
-}
-else
-{
-	
-}
+	if (stan_sygnalu)
+	{
+		read_RPY();
+		stabilize();
+		
+	}
+	else
+	{
+		
+	}
 }
 
 

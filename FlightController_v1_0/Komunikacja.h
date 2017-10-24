@@ -44,9 +44,15 @@ class KomunikacjaClass
 	void wyslij();
 	bool sprawdzSumeKontr(const uint8_t* buffer, size_t PacketSize);
 	uint8_t liczSumeKontr(const uint8_t* buffer, size_t PacketSize);
+	void setRxBitByte(); // przypisywanie zmiennych bitbyte do odpowiednich zmiennych
+	void setTxBitByte(); // przypisywanie odpowiednich zmiennych do zmiennych bitbyte
+	
+	// sprawdzenia
+	bool isSignal();
 	
  // === ZMIENNE ===
  public:
+	
 	// Odebrane
 	uint16_t throttle = 0; // Prêdkoœæ na silniki
 	int rotation = 0; // Obrot drona
@@ -58,10 +64,11 @@ class KomunikacjaClass
 	// Wys³ane
 	bitByte dodatkoweTx; // Wysylane dane uzupelniajace: bit 7 - sygnal "pong" drona, bit 6 -
 	uint8_t battery_level = 0; // Stan baterii (0-200)
-	uint8_t wysokosc = 0; // Wysokosc drona
+	uint8_t drone_height = 0; // Wysokosc drona
 	
 	// Inne
-	
+	bool last_pilot_ping_state; // ostatni odebrany stan ping wys³any przez pilota
+	bool pilot_ping_state; // obecny odebrany stan ping
 };
 
 extern KomunikacjaClass komun;
