@@ -1,4 +1,4 @@
-#Wywalamy z autoakutalizacji nastêpuj¹ce:
+#Wywalamy z autoakutalizacji nastï¿½pujï¿½ce:
 *.elf
 *.d
 *.o
@@ -222,3 +222,5 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 *.atsuo
+*.cppproj
+*.xml
