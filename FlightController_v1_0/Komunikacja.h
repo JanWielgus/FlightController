@@ -49,6 +49,7 @@ class KomunikacjaClass
 	
 	// sprawdzenia
 	bool isSignal();
+	void updateSignalState();
 	
  // === ZMIENNE ===
  public:
@@ -69,6 +70,7 @@ class KomunikacjaClass
 	// Inne
 	bool last_pilot_ping_state; // ostatni odebrany stan ping wys³any przez pilota
 	bool pilot_ping_state; // obecny odebrany stan ping
+	bool stan_sygnalu = false; // false - nie ma polaczenia z pilotem, true - jest polaczenie
 };
 
 extern KomunikacjaClass komun;

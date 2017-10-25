@@ -57,7 +57,7 @@ void KomunikacjaClass::wyslij()
 	
 	buforT[1] = dodatkoweTx.bajt;
 	buforT[2] = battery_level;
-	buforT[3] = wysokosc;
+	buforT[3] = drone_height;
 	
 	buforT[0] = liczSumeKontr(buforT, RAMKA_DRON_SIZE);
 	
@@ -91,12 +91,18 @@ uint8_t KomunikacjaClass::liczSumeKontr(const uint8_t* buffer, size_t PacketSize
 
 // ====== SPRAWDZENIA ======
 
-bool KomunikacjaClass::isSignal()
+void KomunikacjaClass::updateSignalState()
 {
 	if (pilot_ping_state == last_pilot_ping_state)
-		return false;
+		stan_sygnalu = false;
 	last_pilot_ping_state = pilot_ping_state;
-	return true;
+	stan_sygnalu = true;
+}
+
+
+bool KomunikacjaClass::isSignal()
+{
+	return stan_sygnalu;
 }
 
 

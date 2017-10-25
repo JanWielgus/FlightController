@@ -10,39 +10,40 @@
 
 
 #include <TimerOne.h>
-#include <Wire.h>
-#include <MPU6050.h>
-#include <MS5611.h>
 #include "Komunikacja.h"
+#include "Sensors.h"
+#include "Motors.h"
 
+#define TLmotorPin 5
+#define TRmotorPin 6
+#define BLmotorPin 9
+#define BRmotorPin 10
 
-MPU6050 mpu;
+// obiekty silników
+MotorsClass motorTL; // Top left
+MotorsClass motorTR; // Top right
+MotorsClass motorBL; // Back left
+MotorsClass motorBR; // Back right
 
-
-//---- Zmienne programu ----
-uint32_t timer = 0;
-uint32_t timerPrev = 0;
-double dt_; // Delta time (czas wykonywania programu)
-bool stan_sygnalu = false; // false - nie ma polaczenia z pilotem, true - jest polaczenie
-
-float pitch = 0;
-float roll = 0;
-float yaw = 0;
-float pitchAcc = 0;
-float rollAcc = 0;
-
+// obiekty serw (jako silniki)
+Servo mTL;
+Servo mTR;
+Servo mBL;
+Servo mBR;
 
 
 void setup()
 {
-	komun.init();
+	Serial.begin(9600);
 	
-	while(!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G))
-	{
-		//Serial.println("Could not find a valid MPU6050 sensor, check wiring!");
-		delay(500);
-	}
-	mpu.setThreshold(3);
+	komun.init();
+	sensors.init();
+	
+	// przekazanie wskaŸników na obiekty serw i piny silników
+	motorTL.init(&mTL, TLmotorPin);
+	motorTR.init(&mTR, TRmotorPin);
+	motorBL.init(&mBL, BLmotorPin);
+	motorBR.init(&mBR, BRmotorPin);
 	
 	Timer1.initialize(100000); // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
 	Timer1.attachInterrupt( timerIsr ); // attach the service routine here
@@ -52,17 +53,17 @@ void setup()
 
 void loop()
 {
-	stan_sygnalu = komun.isSignal(); // sprawdzanie po³¹czenia
 	
-	if (stan_sygnalu)
+	if (komun.isSignal())
 	{
-		read_RPY();
-		stabilize();
+		Serial.println("Jest sygna³!!!");
+		sensors.updateDeltaTime();
+		sensors.readAngles();
 		
 	}
 	else
 	{
-		
+		Serial.println("Nie ma sygna³u :(");
 	}
 }
 
@@ -70,41 +71,14 @@ void loop()
 ////////////////////////////////////////////////////////////////////// ====== END LOOP ======
 
 
-void read_RPY() // Read roll, pitch, yaw
-{
-	timerPrev = timer;
-	timer = micros();
-	dt_ = float(timer - timerPrev) / 1000000.0;
-	
-	// Read normalized values
-	Vector norm = mpu.readNormalizeGyro();
-	Vector normAccel = mpu.readNormalizeAccel();
-	
-	// Calculate Pitch, Roll and Yaw (Gyro)
-	pitch = pitch + norm.YAxis * dt_;
-	roll = roll + norm.XAxis * dt_;
-	yaw = yaw + norm.ZAxis * dt_;
-
-	// Calculate Pitch and Roll (Acc)
-	pitchAcc = -(atan2(normAccel.XAxis, sqrt(normAccel.YAxis*normAccel.YAxis + normAccel.ZAxis*normAccel.ZAxis))*180.0)/M_PI;
-	rollAcc = (atan2(normAccel.YAxis, normAccel.ZAxis)*180.0)/M_PI;
-	
-	//-- Filtr komplementarny --
-	pitch = 0.98*pitch + 0.02*pitchAcc;
-	roll = 0.98*roll + 0.02*rollAcc;
-}
-
-
-void stabilize()
-{
-	
-}
-
 
 // -- Funkcja uruchamiana co 0.1s (10Hz) --
 void timerIsr()
 {
+	Serial.println("Pêtla kom.");
+	
 	komun.odbierz();
+	komun.updateSignalState();
 	
 	komun.dodatkoweTx.b7 = !komun.dodatkoweTx.b7;// Zmiana stanu ping na przeciwny
 	//battery_level = ;
