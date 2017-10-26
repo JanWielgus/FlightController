@@ -3,20 +3,21 @@
 // 
 
 #include "Motors.h"
-//MotorsClass motors;
+MotorsClass motors;
 
 
 
-void MotorsClass::init(Servo *_servo, int _pin)
+void MotorsClass::init()
 {
-	motor = _servo; // przekazanie wskaŸnika na wskaŸnik globalny
-	
-	motor->attach(_pin); // uruchomienie serwa na pinie
+	mTL.attach(TLmotorPin); // Top left
+	mTR.attach(TRmotorPin); // Top right
+	mBL.attach(BLmotorPin); // Back left
+	mBR.attach(BRmotorPin); // Back right
 }
 
 
 
-void MotorsClass::setMotor(uint16_t _val)
+void MotorsClass::setOnAllMotors(uint16_t _val)
 {
 	// Zostawiæ to pierwsze (i przetestowaæ)
 	/*
@@ -27,7 +28,11 @@ void MotorsClass::setMotor(uint16_t _val)
 	
 	_val = map(_val, 0, 2000, 0, 180);
 	_val - constrain(_val, 0, 180);
-	motor->write(_val);
+	
+	mTL.write(_val);
+	mTR.write(_val);
+	mBL.write(_val);
+	mBR.write(_val);
 }
 
 

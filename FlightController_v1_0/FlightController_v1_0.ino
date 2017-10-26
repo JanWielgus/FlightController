@@ -14,22 +14,6 @@
 #include "Sensors.h"
 #include "Motors.h"
 
-#define TLmotorPin 5
-#define TRmotorPin 6
-#define BLmotorPin 9
-#define BRmotorPin 10
-
-// obiekty silnikÛw
-MotorsClass motorTL; // Top left
-MotorsClass motorTR; // Top right
-MotorsClass motorBL; // Back left
-MotorsClass motorBR; // Back right
-
-// obiekty serw (jako silniki)
-Servo mTL;
-Servo mTR;
-Servo mBL;
-Servo mBR;
 
 
 void setup()
@@ -38,12 +22,7 @@ void setup()
 	
 	komun.init();
 	sensors.init();
-	
-	// przekazanie wskaünikÛw na obiekty serw i piny silnikÛw
-	motorTL.init(&mTL, TLmotorPin);
-	motorTR.init(&mTR, TRmotorPin);
-	motorBL.init(&mBL, BLmotorPin);
-	motorBR.init(&mBR, BRmotorPin);
+	motors.init();
 	
 	Timer1.initialize(100000); // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
 	Timer1.attachInterrupt( timerIsr ); // attach the service routine here
@@ -78,7 +57,7 @@ void timerIsr()
 	Serial.println("PÍtla kom.");
 	
 	komun.odbierz();
-	komun.updateSignalState();
+	komun.updateSignalState(); // sprawdü czy jest sygna≥
 	
 	komun.dodatkoweTx.b7 = !komun.dodatkoweTx.b7;// Zmiana stanu ping na przeciwny
 	//battery_level = ;

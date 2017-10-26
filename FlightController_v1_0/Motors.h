@@ -13,22 +13,31 @@
 
 #include <Servo.h>
 
+#define TLmotorPin 5
+#define TRmotorPin 6
+#define BLmotorPin 9
+#define BRmotorPin 10
+
 
 
 class MotorsClass
 {
+	Servo mTL;
+	Servo mTR;
+	Servo mBL;
+	Servo mBR;
+	
 // === FUNKCJE ===
  public:
-	void init(Servo *_servo, int _pin); // wskaünik na obiekt serwa i pin silnika
-	void setMotor(uint16_t _val); // parametr od 0 do 2000
+	void init(); // wskaünik na obiekt serwa i pin silnika
+	void setOnAllMotors(uint16_t _val); // parametr od 0 do 2000
 	
 // === ZMIENNE ===
  public:
-	int16_t main_power; // g≥Ûwna moc (nie wiem czy potrzebna)
-	Servo *motor; // wskaünik do sterowania silnikiem (serwo)
+	//int16_t main_power; // g≥Ûwna moc (nie wiem czy potrzebna)
 };
 
-//extern MotorsClass motors;
+extern MotorsClass motors;
 
 #endif
 
