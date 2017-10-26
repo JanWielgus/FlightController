@@ -32,7 +32,15 @@ void KomunikacjaClass::odbierz()
 
 void KomunikacjaClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 {
-	if (bufferR[1] == RAMKA_STER_TYPE && PacketSize == RAMKA_STER_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
+	if (PacketSize == RAMKA_STER_SIZE && sprawdzSumeKontr(bufferR, RAMKA_STER_SIZE))
+	{
+		dodatkoweRx.bajt = bufferR[1];
+		throttle = bufferR[2];
+	}
+	
+	/*
+	//if (bufferR[1] == RAMKA_STER_TYPE && PacketSize == RAMKA_STER_SIZE && sprawdzSumeKontr(bufferR, RAMKA_STER_SIZE))
+	if (bufferR[1] == RAMKA_STER_TYPE && PacketSize == RAMKA_STER_SIZE)
 	{
 		throttle = bufferR[2];
 		rotation = bufferR[3];
@@ -40,13 +48,15 @@ void KomunikacjaClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 		left_right = bufferR[5];
 	}
 	
-	if (bufferR[1] == RAMKA_DANE_TYPE && PacketSize == RAMKA_DANE_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
+	//if (bufferR[1] == RAMKA_DANE_TYPE && PacketSize == RAMKA_DANE_SIZE && sprawdzSumeKontr(bufferR, RAMKA_DANE_SIZE))
+	if (bufferR[1] == RAMKA_DANE_TYPE && PacketSize == RAMKA_DANE_SIZE)
 	{
 		flight_mode = bufferR[2];
 		dodatkoweRx.bajt = bufferR[3];
 		
 		setRxBitByte(); // Przepisanie typów bitowych do zmiennych
 	}
+	*/
 }
 
 
@@ -94,9 +104,14 @@ uint8_t KomunikacjaClass::liczSumeKontr(const uint8_t* buffer, size_t PacketSize
 void KomunikacjaClass::updateSignalState()
 {
 	if (pilot_ping_state == last_pilot_ping_state)
+	{
 		stan_sygnalu = false;
-	last_pilot_ping_state = pilot_ping_state;
-	stan_sygnalu = true;
+	}
+	else
+	{
+		last_pilot_ping_state = pilot_ping_state;
+		stan_sygnalu = true;
+	}
 }
 
 
@@ -111,6 +126,7 @@ void KomunikacjaClass::setRxBitByte()
 {
 	pilot_ping_state = dodatkoweRx.b7;
 	//reszta...
+	Serial.println("dziala");
 }
 
 
