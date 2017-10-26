@@ -19,7 +19,7 @@
 #define BAUD_RATE 9600
 #define MAX_SEND_SIZE 10
 
-#define RAMKA_STER_SIZE 10
+#define RAMKA_STER_SIZE 6
 #define RAMKA_STER_TYPE 0x00
 
 #define RAMKA_DANE_SIZE 4
@@ -56,9 +56,9 @@ class KomunikacjaClass
 	
 	// Odebrane
 	uint16_t throttle = 0; // Prêdkoœæ na silniki
-	int rotation = 0; // Obrot drona
-	int forw_back = 0; // Przód, tyl
-	int left_right = 0; // Prawo, lewo
+	int8_t rotation = 0; // Obrot drona
+	int8_t forw_back = 0; // Przód, tyl
+	int8_t left_right = 0; // Prawo, lewo
 	uint8_t flight_mode = 1; // Tryby lotu: 1 - Stabilize, 2 - Alt Hold
 	bitByte dodatkoweRx; // Odebrane dane uzupelniajace: bit 7 - sygna³ "ping" pilota, bit 6 -
 
@@ -89,14 +89,10 @@ Opis protokolu Modernity Master-Manipulator Serial:
 	Typ ramki - gownie STERowanie (bajt 0: 0x00):
 	0. XOR wszystkich nastepnych bajtow (suma kontrolna) (unsigned 8b)
 	1. Typ ramki - 0x00 sterowanie (unsigned 8b)
-	2. Przepustnica (unsigned 16b)
-	3. cd^
-	4. Obrot (signed 16b)
-	5. cd^
-	6. Przod/ty³ (signed 16b)
-	7. cd^
-	8. Prawo/lewo (signed 16b)
-	9. cd^
+	2. Przepustnica (unsigned 8b)
+	3. Obrot (signed 8b)
+	4. Przod/ty³ (signed 8b)
+	5. Prawo/lewo (signed 8b)
 
 	Typ ramki - przelaczniki i dodatkowe DANE (bajt 0: 0x01):
 	0. XOR wszystkich nastepnych bajtow (suma kontrolna) (unsigned 8b)

@@ -1,0 +1,27 @@
+Opis protokolu Modernity Master-Manipulator Serial:
+
+1. Na konkretnych pozycjach pakietu kodowanego COBS znajduje sie kolejne dane.
+   Bajty wystepuja w naturalnej kolejnosci dla AVR i PC - Little Endian - najpierw idzie nizszy bajt
+
+2. Pakiet kierunku pilot--->dron moze wystepowac w kilku typach:
+
+	Typ ramki - gownie STERowanie (bajt 0: 0x00):
+	0. XOR wszystkich nastepnych bajtow (suma kontrolna) (unsigned 8b)
+	1. Typ ramki - 0x00 sterowanie (unsigned 8b)
+	2. Przepustnica (unsigned 8b)
+	3. Obrot (signed 8b)
+	4. Przod/ty³ (signed 8b)
+	5. Prawo/lewo (signed 8b)
+
+	Typ ramki - przelaczniki i dodatkowe DANE (bajt 0: 0x01):
+	0. XOR wszystkich nastepnych bajtow (suma kontrolna) (unsigned 8b)
+	1. Typ ramki - 0x01 dane (unsigned 8b)
+	2. Tryb lotu (unsigned 8b): 1 - Stabilize, 2 - Alt Hold
+	3. 8 bitow bool: bit 7 - sygna³ "ping" pilota, bit 6 - 
+   
+
+3. Pakiet kierunku dron--->pilot :wystepuje tylko w jednym typie:
+	0. XOR wszystkich nastepnych bajtow (suma kontrolna) (unsigned 8b)
+	1. 8 bitow bool: bit 7 - sygnal "pong" drona, bit 6 - 
+	2. Stan baterii (unsigned 8b)
+	3. Wysokoœæ wzglêdna (unsigned 8b)

@@ -34,10 +34,10 @@ void KomunikacjaClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 {
 	if (bufferR[1] == RAMKA_STER_TYPE && PacketSize == RAMKA_STER_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
 	{
-		throttle = word(bufferR[3], bufferR[2]);
-		rotation = word(bufferR[5], bufferR[4]);
-		forw_back = word(bufferR[7], bufferR[6]);
-		left_right = word(bufferR[9], bufferR[8]);
+		throttle = bufferR[2];
+		rotation = bufferR[3];
+		forw_back = bufferR[4];
+		left_right = bufferR[5];
 	}
 	
 	if (bufferR[1] == RAMKA_DANE_TYPE && PacketSize == RAMKA_DANE_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
