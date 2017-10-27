@@ -21,10 +21,6 @@ void SensorsClass::init()
 
 void SensorsClass::readAngles()
 {
-	//timerPrev = timer;
-	//timer = micros();
-	//dt_ = float(timer - timerPrev) / 1000000.0;
-	
 	// Read normalized values
 	Vector norm = mpu.readNormalizeGyro();
 	Vector normAccel = mpu.readNormalizeAccel();

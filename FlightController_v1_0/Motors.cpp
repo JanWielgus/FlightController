@@ -19,13 +19,21 @@ void MotorsClass::init()
 
 void MotorsClass::setOnAllMotors(uint16_t _val)
 {
-	_val = map(_val, 0, 2000, 1000, 2000);
+	//_val = map(_val, 0, 2000, 1000, 2000);
+	_val += 1000;
 	_val = constrain(_val, 1000, 2000);
 	
 	mTL.writeMicroseconds(_val);
 	mTR.writeMicroseconds(_val);
 	mBL.writeMicroseconds(_val);
 	mBR.writeMicroseconds(_val);
+}
+
+
+
+void MotorsClass::setOnEachMotor(uint16_t mot1, uint16_t mot2, uint16_t mot3, uint16_t mot4)
+{
+	//mot1 = (mot1 / 2) + 1000;
 }
 
 

@@ -30,12 +30,13 @@ void setup()
 
 void loop()
 {
-	int value = map(kom.zmienna1, 10, 1023, 0, 2000);
-	value = constrain(value, 0, 2000);
+	int value = map(kom.zmienna1, 10, 1023, 0, 1000);
+	value = constrain(value, 0, 1000);
 	//if (value > 1010) value = 1200;
-	
-	
 	motors.setOnAllMotors(value);
+	
+	
+	sensors.updateDeltaTime();
 	
 	
 	uint32_t timenow = millis();

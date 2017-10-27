@@ -26,7 +26,8 @@ class MotorsClass
 // === FUNKCJE ===
  public:
 	void init(); // wskaünik na obiekt serwa i pin silnika
-	void setOnAllMotors(uint16_t _val); // parametr od 0 do 2000
+	void setOnAllMotors(uint16_t _val); // parametr od 0 do 1000
+	void setOnEachMotor(uint16_t mot1, uint16_t mot2, uint16_t mot3, uint16_t mot4);
 	
 // === ZMIENNE ===
  public:

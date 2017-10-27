@@ -42,7 +42,12 @@
 
 //<<<<<<<<<=====================     PID     =====================>>>>>>>>>
 
-
+	#define kP 1     // wzmocnienie P PID'u od poziomu
+	#define kI 1     // wzmocnienie I PID'u od poziomu
+	#define kD 1     // wzmocnienie D PID'u od poziomu
+	
+	#define kP_yaw 1 // wzmocnienie P PD'u od osi z
+	#define kD_yaw 1 // wzmocnienie D PD'u od osi z
 
 
 #endif /* CONFIG_H_ */

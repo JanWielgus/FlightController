@@ -28,8 +28,8 @@ class SensorsClass
 	
 // === ZMIENNE ===
  public:
-	float pitch = 0;
-	float roll = 0;
+	double pitch = 0;
+	double roll = 0;
 	float yaw = 0;
 	double dt_;
 	
