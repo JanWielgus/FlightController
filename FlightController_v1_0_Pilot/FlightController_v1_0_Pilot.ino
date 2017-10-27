@@ -79,7 +79,7 @@ void loop()
 	if (stan_sygnalu == true) digitalWrite(LED_BUILTIN, HIGH);
 	else digitalWrite(LED_BUILTIN, LOW);
 	
-	delay(100);
+	delay(50);
 }
 
 

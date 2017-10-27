@@ -11,6 +11,7 @@
 	#include "WProgram.h"
 #endif
 
+
 #include <Servo.h>
 
 #define TLmotorPin 5
@@ -22,6 +23,7 @@
 
 class MotorsClass
 {
+ public:
 	Servo mTL;
 	Servo mTR;
 	Servo mBL;

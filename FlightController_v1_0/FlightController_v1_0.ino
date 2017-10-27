@@ -12,10 +12,16 @@
 //#include <TimerOne.h>
 //#include "Komunikacja.h"
 #include "Sensors.h"
-#include "Motors.h"
+//#include "Motors.h"
 #include <PacketSerial.h>
 #include <SoftwareSerial.h>
 #include "typyBitowe.h"
+#include <Servo.h>
+
+#define TLmotorPin 5
+#define TRmotorPin 6
+#define BLmotorPin 9
+#define BRmotorPin 10
 
 //-------Pami?ta? o zmianie wielko?ci ramek po zmianie protoko?u!!!-------
 #define BAUD_RATE 9600
@@ -47,17 +53,28 @@ long czas_ostatniego_pong = 1000;
 boolean ostatni_pong = false; //stan ostatniego odebranego pongu
 boolean stan_sygnalu = false;
 
+uint32_t last_loop = 0;
+
+Servo mTL;
+Servo mTR;
+Servo mBL;
+Servo mBR;
+
 
 
 
 void setup()
 {
-	Serial.begin(9600);
+	Serial.begin(115200);
 	
 	_init();
 	//komun.init();
 	sensors.init();
-	motors.init();
+	//motors.init();
+	mTL.attach(TLmotorPin); // Top left
+	mTR.attach(TRmotorPin); // Top right
+	mBL.attach(BLmotorPin); // Back left
+	mBR.attach(BRmotorPin); // Back right
 	
 	//Timer1.initialize(100000); // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
 	//Timer1.attachInterrupt( timerIsr ); // attach the service routine here
@@ -67,26 +84,48 @@ void setup()
 
 void loop()
 {
-	odbierz();
+	int value = map(zmienna1, 10, 1023, 1000, 2000);
+	value = constrain(value, 1000, 2000);
+	if (value > 1010) value = 1200;
 	
-	if (pong.b0 != ostatni_pong)
-	{
-		ostatni_pong = pong.b0;
-		czas_ostatniego_pong = millis();
-	}
-	
-	if ((millis() - czas_ostatniego_pong) > 200) stan_sygnalu = false;
-	else stan_sygnalu = true;
-	
-	ping.b0 = !ping.b0;
-	
-	//wyslij(RAMKA_STER_TYPE);
-	
-	Serial.print(zmienna1);
+	Serial.print(value);
 	Serial.print("\t");
 	Serial.println(stan_sygnalu);
 	
-	delay(100);
+	//motors.setOnAllMotors(value);
+	mTL.writeMicroseconds(1000);
+	mTR.writeMicroseconds(value);
+	mBL.writeMicroseconds(1000);
+	mBR.writeMicroseconds(1000);
+	
+	
+	uint32_t timenow = millis();
+	if ((timenow - last_loop) > 50)
+	{
+		odbierz();
+		
+		if (pong.b0 != ostatni_pong)
+		{
+			ostatni_pong = pong.b0;
+			czas_ostatniego_pong = millis();
+		}
+		
+		if ((millis() - czas_ostatniego_pong) > 200) stan_sygnalu = false;
+		else stan_sygnalu = true;
+		
+		ping.b0 = !ping.b0;
+		
+		//wyslij(RAMKA_STER_TYPE);
+		
+		
+		
+		
+		
+		
+		last_loop = millis();
+	}
+	
+	
 	
 	//motors.setOnAllMotors(0);
 	/*
