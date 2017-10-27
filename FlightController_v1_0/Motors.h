@@ -11,14 +11,8 @@
 	#include "WProgram.h"
 #endif
 
-
 #include <Servo.h>
-
-#define TLmotorPin 5
-#define TRmotorPin 6
-#define BLmotorPin 9
-#define BRmotorPin 10
-
+#include "config.h"
 
 
 class MotorsClass
@@ -36,7 +30,7 @@ class MotorsClass
 	
 // === ZMIENNE ===
  public:
-	//int16_t main_power; // g³ówna moc (nie wiem czy potrzebna)
+	
 };
 
 extern MotorsClass motors;

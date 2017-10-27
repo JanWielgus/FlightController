@@ -14,23 +14,7 @@
 
 #include <PacketSerial.h>
 #include "typyBitowe.h"
-
-
-//-------Pami?ta? o zmianie wielko?ci ramek po zmianie protoko?u!!!-------
-#define serialNaPakiety Serial
-#define serialPort 0	//Serial: 0, Serial1: 1, Serial2: 2, Serial3: 3
-#define BAUD_RATE 9600
-#define MAX_SEND_SIZE 12
-
-#define RAMKA_STER_SIZE 3
-#define RAMKA_STER_TYPE 0x00
-
-#define RAMKA_DANE_SIZE 4
-#define RAMKA_DANE_TYPE 0x01
-
-#define RAMKA_DRON_SIZE 6 //odebrane
-
-#define MAX_ILOSC_ZGUBIONYCH_RAMEK 3
+#include "config.h"
 
 
 
@@ -58,7 +42,6 @@ class KomunikacjaClass
 	bitByte ping;
 	
  private:
-	//long czas_ostatniego_pong = 1000;
 	boolean ostatni_pong = false; //stan ostatniego odebranego pongu
 	boolean stan_sygnalu = false;
 	int zgubione_ramki = 0; // liczba nieodebranych ramek
