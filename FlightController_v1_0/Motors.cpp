@@ -19,7 +19,6 @@ void MotorsClass::init()
 
 void MotorsClass::setOnAllMotors(uint16_t _val)
 {
-	//_val = map(_val, 0, 2000, 1000, 2000);
 	_val += 1000;
 	_val = constrain(_val, 1000, 2000);
 	

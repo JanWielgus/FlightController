@@ -15,6 +15,9 @@
 //<<<<<<<<<=====================     KOMUNIKACJA     =====================>>>>>>>>>
 
 	//-------Pamiêtaj o zmianie wielkoœci ramek po zmianie protoko³u!!!-------
+	
+	//      ===  TYLKO TABLICE O WYMIARACH TAKICH JAK RAMKA, NIE WIÊKSZE !!!  ===
+	
 	//#define serialNaPakiety Serial
 	#define serialPort 0	  //Serial: 0, Serial1: 1, Serial2: 2, Serial3: 3
 	#define BAUD_RATE 9600
