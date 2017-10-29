@@ -29,11 +29,11 @@ void KomunikacjaClass::odbierz()
 
 void KomunikacjaClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 {
-	if (PacketSize == RAMKA_DRON_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
+	if (bufferR[1] == PILOT_RAMKA_TEST_TYPE && PacketSize == PILOT_RAMKA_TEST_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
 	{
-		zmienna1 = word(bufferR[2], bufferR[1]);
-		zmienna2 = word(bufferR[4], bufferR[3]);
-		pong.bajt = bufferR[5];
+		zmienna1 = word(bufferR[3], bufferR[2]);
+		zmienna2 = word(bufferR[5], bufferR[4]);
+		pong.bajt = bufferR[6];
 	}
 }
 
@@ -43,17 +43,19 @@ void KomunikacjaClass::wyslij(uint8_t typRamki)
 {
 	buforT[1] = typRamki;
 	
-	if (typRamki == RAMKA_STER_TYPE)
+	if (typRamki == DRON_RAMKA_TEST_TYPE)
 	{
-		buforT[2] = ping.bajt;
+		buforT[2] = zmiennaTestowa1.bajt[0];
+		buforT[3] = zmiennaTestowa1.bajt[1];
+		buforT[4] = zmiennaTestowa1.bajt[2];
+		buforT[5] = zmiennaTestowa1.bajt[3];
 		
+		buforT[0] = liczSumeKontr(buforT, DRON_RAMKA_TEST_SIZE);
 		
-		buforT[0] = liczSumeKontr(buforT, RAMKA_DRON_SIZE);
-		
-		pSerial.send(buforT, RAMKA_DRON_SIZE);
+		pSerial.send(buforT, DRON_RAMKA_TEST_SIZE);
 	}
 	
-	else if (typRamki == RAMKA_DANE_TYPE)
+	else if (typRamki == DRON_RAMKA_POZYCJA_TYPE)
 	{
 		/*
 		buforT[2] = jakisOsiemTtx;

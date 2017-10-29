@@ -4,7 +4,6 @@
 // Date: 26.10.2017r.
 //
 
-//#include <TimerOne.h>
 //#include "Komunikacja.h"
 #include <PacketSerial.h>
 #include <SoftwareSerial.h>
@@ -15,6 +14,7 @@
 #define BAUD_RATE 9600
 #define MAX_SEND_SIZE 12
 
+/*
 //pierwsza ramka
 #define RAMKA_PREDK_SIZE 3
 #define RAMKA_PREDK_TYPE 0x00
@@ -24,6 +24,26 @@
 #define RAMKA_POZ_TYPE 0x01
 
 #define RAMKA_WYSYLKA_SIZE 6
+*/
+
+// Szablon: nadawca_RAMKA_nazwa_SIZE/TYPE
+
+// -- wysy³ane --
+#define PILOT_RAMKA_STEROWANIE_SIZE 3
+#define PILOT_RAMKA_STEROWANIE_TYPE 0x00
+
+#define PILOT_RAMKA_DANE_SIZE 4
+#define PILOT_RAMKA_DANE_TYPE 0x01
+
+#define PILOT_RAMKA_TEST_SIZE 7
+#define PILOT_RAMKA_TEST_TYPE 0x02
+// -- odebrane --
+#define DRON_RAMKA_POZYCJA_SIZE 6
+#define DRON_RAMKA_POZYCJA_TYPE 0x05
+
+#define DRON_RAMKA_TEST_SIZE 6
+#define DRON_RAMKA_TEST_TYPE 0x06
+
 
 #define tx_pin 2
 #define rx_pin 3
@@ -35,6 +55,7 @@ SoftwareSerial software_serial(tx_pin, rx_pin); // HC-12 TX Pin, HC-12 RX Pin
 //wysy?ane
 int zmienna1, zmienna2;
 bitByte ping;
+floatByte zmiennaTestowa;
 
 //odebrane
 bitByte pong;
@@ -52,9 +73,6 @@ void setup()
 	Serial.begin(9600);
 	//komun.init();
 	_init();
-	
-	//Timer1.initialize(100000); // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
-	//Timer1.attachInterrupt( timerIsr ); // attach the service routine here
 }
 
 void loop()
@@ -74,7 +92,7 @@ void loop()
 	
 	zmienna1 = analogRead(A0);
 	
-	wyslij();
+	wyslij(PILOT_RAMKA_TEST_TYPE);
 
 	if (stan_sygnalu == true) digitalWrite(LED_BUILTIN, HIGH);
 	else digitalWrite(LED_BUILTIN, LOW);
@@ -123,12 +141,15 @@ void odbierz()
 
 void odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 {
-	if (bufferR[1] == RAMKA_PREDK_TYPE && PacketSize == RAMKA_PREDK_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
+	if (bufferR[1] == DRON_RAMKA_TEST_TYPE && PacketSize == DRON_RAMKA_TEST_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
 	{
-		pong.bajt = bufferR[2];
+		zmiennaTestowa.bajt[0] = bufferR[2];
+		zmiennaTestowa.bajt[1] = bufferR[3];
+		zmiennaTestowa.bajt[2] = bufferR[4];
+		zmiennaTestowa.bajt[3] = bufferR[5];
 	}
 	
-	if (bufferR[1] == RAMKA_POZ_TYPE && PacketSize == RAMKA_POZ_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
+	if (bufferR[1] == DRON_RAMKA_POZYCJA_TYPE && PacketSize == DRON_RAMKA_POZYCJA_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
 	{
 		/*
 		jakisOsiemT = bufferR[2];
@@ -143,17 +164,30 @@ void odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 }
 
 
-void wyslij()
+void wyslij(uint8_t typRamki)
 {
-	buforT[1] = lowByte(zmienna1);
-	buforT[2] = highByte(zmienna1);
-	buforT[3] = lowByte(zmienna2);
-	buforT[4] = highByte(zmienna2);
-	buforT[5] = ping.bajt;
+	buforT[1] = typRamki;
 	
-	buforT[0] = liczSumeKontr(buforT, RAMKA_WYSYLKA_SIZE);
-	
-	pSerial.send(buforT, RAMKA_WYSYLKA_SIZE);
+	if (typRamki == PILOT_RAMKA_TEST_TYPE)
+	{
+		buforT[2] = lowByte(zmienna1);
+		buforT[3] = highByte(zmienna1);
+		buforT[4] = lowByte(zmienna2);
+		buforT[5] = highByte(zmienna2);
+		buforT[6] = ping.bajt;
+		
+		buforT[0] = liczSumeKontr(buforT, PILOT_RAMKA_TEST_SIZE);
+		
+		pSerial.send(buforT, PILOT_RAMKA_TEST_SIZE);
+	}
+	else if (typRamki == PILOT_RAMKA_STEROWANIE_TYPE)
+	{
+		//ustawianie zmiennych...
+		
+		buforT[0] = liczSumeKontr(buforT, PILOT_RAMKA_STEROWANIE_SIZE);
+		
+		pSerial.send(buforT, PILOT_RAMKA_STEROWANIE_SIZE);
+	}
 }
 
 

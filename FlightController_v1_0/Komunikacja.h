@@ -38,6 +38,7 @@ class KomunikacjaClass
  public:
 	bitByte pong;
 	int zmienna1, zmienna2;
+	floatByte zmiennaTestowa1;
 	
 	bitByte ping;
 	

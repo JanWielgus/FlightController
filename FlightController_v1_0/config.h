@@ -18,18 +18,29 @@
 	
 	//      ===  TYLKO TABLICE O WYMIARACH TAKICH JAK RAMKA, NIE WIÊKSZE !!!  ===
 	
-	//#define serialNaPakiety Serial
 	#define serialPort 0	  //Serial: 0, Serial1: 1, Serial2: 2, Serial3: 3
 	#define BAUD_RATE 9600
 	#define MAX_SEND_SIZE 12  // Wielkosæ najwiêkszej ramki
 
-	#define RAMKA_STER_SIZE 3
-	#define RAMKA_STER_TYPE 0x00
-	#define RAMKA_DANE_SIZE 4
-	#define RAMKA_DANE_TYPE 0x01
-	#define RAMKA_DRON_SIZE 6 //odebrane
+	// Szablon: nadawca_RAMKA_nazwa_SIZE/TYPE
+	
+	// -- odebrane --
+	#define PILOT_RAMKA_STEROWANIE_SIZE 3
+	#define PILOT_RAMKA_STEROWANIE_TYPE 0x00
+	
+	#define PILOT_RAMKA_DANE_SIZE 4
+	#define PILOT_RAMKA_DANE_TYPE 0x01
+	
+	#define PILOT_RAMKA_TEST_SIZE 7
+	#define PILOT_RAMKA_TEST_TYPE 0x02
+	// -- nadawane --
+	#define DRON_RAMKA_POZYCJA_SIZE 6
+	#define DRON_RAMKA_POZYCJA_TYPE 0x05
+	
+	#define DRON_RAMKA_TEST_SIZE 6
+	#define DRON_RAMKA_TEST_TYPE 0x06
 
-	#define MAX_ILOSC_ZGUBIONYCH_RAMEK 3    // Po prezkroczeniu wykrywany jest brak po³¹czenia z pilotem
+	#define MAX_ILOSC_ZGUBIONYCH_RAMEK 2    // Po prezkroczeniu wykrywany jest brak po³¹czenia z pilotem
 
 
 //<<<<<<<<<=====================     SENSORS     =====================>>>>>>>>>
