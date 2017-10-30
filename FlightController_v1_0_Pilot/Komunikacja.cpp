@@ -3,22 +3,20 @@
 // 
 
 #include "Komunikacja.h"
-KomunikacjaClass komun;
+KomunikacjaClass kom;
 
 void _protOdbierz(const uint8_t* buffer, size_t size)
 {
-	//odbierzPriv(buffer, size);
-	komun.odbierzPriv(buffer, size);
+	kom.odbierzPriv(buffer, size);
 }
 
 
 
-void KomunikacjaClass::init()
+void KomunikacjaClass::init(SoftwareSerial *_softwareserial)
 {
-	SoftwareSerial software_serial(tx_pin, rx_pin); // HC-12 TX Pin, HC-12 RX Pin
 	pSerial.setPacketHandler(_protOdbierz);
-	software_serial.begin(BAUD_RATE);
-	pSerial.begin(&software_serial);
+	_softwareserial->begin(BAUD_RATE);
+	pSerial.begin(_softwareserial);
 }
 
 
@@ -32,11 +30,25 @@ void KomunikacjaClass::odbierz()
 
 void KomunikacjaClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 {
-	if (PacketSize == RAMKA_DRON_SIZE && sprawdzSumeKontr(bufferR, RAMKA_DRON_SIZE))
+	if (bufferR[1] == DRON_RAMKA_TEST_TYPE && PacketSize == DRON_RAMKA_TEST_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
 	{
-		dodatkoweRx.bajt = bufferR[1];
-		battery_level = bufferR[2];
-		drone_height = bufferR[3];
+		zmiennaTestowa.bajt[0] = bufferR[2];
+		zmiennaTestowa.bajt[1] = bufferR[3];
+		zmiennaTestowa.bajt[2] = bufferR[4];
+		zmiennaTestowa.bajt[3] = bufferR[5];
+	}
+	
+	if (bufferR[1] == DRON_RAMKA_POZYCJA_TYPE && PacketSize == DRON_RAMKA_POZYCJA_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
+	{
+		/*
+		jakisOsiemT = bufferR[2];
+		jakisSzesnT = word(bufferR[4], bufferR[3]);
+		jakisSzesnT = word(bufferR[6], bufferR[5]);
+		jakisOsiemT = bufferR[7];
+		jakisOsiemT = bufferR[8];
+		jakisOsiemT = bufferR[9];
+		jakisOsiemT = bufferR[10];
+		*/
 	}
 }
 
@@ -44,39 +56,28 @@ void KomunikacjaClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 
 void KomunikacjaClass::wyslij(uint8_t typRamki)
 {
-	dodatkoweTx.b7 = !dodatkoweTx.b7;
-	
-	buforT[1] = dodatkoweTx.bajt;
-	buforT[2] = throttle;
-	
-	buforT[0] = liczSumeKontr(buforT, RAMKA_STER_SIZE);
-	pSerial.send(buforT, RAMKA_STER_SIZE);
-	/*
 	buforT[1] = typRamki;
 	
-	if (typRamki == RAMKA_STER_TYPE)
+	if (typRamki == PILOT_RAMKA_TEST_TYPE)
 	{
-		buforT[2] = throttle;
-		buforT[3] = rotation;
-		buforT[4] = forw_back;
-		buforT[5] = left_right;
+		buforT[2] = lowByte(zmienna1);
+		buforT[3] = highByte(zmienna1);
+		buforT[4] = lowByte(zmienna2);
+		buforT[5] = highByte(zmienna2);
+		buforT[6] = ping.bajt;
 		
-		buforT[0] = liczSumeKontr(buforT, RAMKA_STER_SIZE);
-		pSerial.send(buforT, RAMKA_STER_SIZE);
+		buforT[0] = liczSumeKontr(buforT, PILOT_RAMKA_TEST_SIZE);
+		
+		pSerial.send(buforT, PILOT_RAMKA_TEST_SIZE);
 	}
-	
-	if (typRamki == RAMKA_DANE_TYPE)
+	else if (typRamki == PILOT_RAMKA_STEROWANIE_TYPE)
 	{
-		//setTxBitByte(); // przypisz do zmiennych bitbyte, odpowienne zmienne
-		dodatkoweTx.b7 = !dodatkoweTx.b7;
+		//ustawianie zmiennych...
 		
-		buforT[2] = flight_mode;
-		buforT[3] = dodatkoweTx.bajt;
+		buforT[0] = liczSumeKontr(buforT, PILOT_RAMKA_STEROWANIE_SIZE);
 		
-		buforT[0] = liczSumeKontr(buforT, RAMKA_DANE_SIZE);
-		pSerial.send(buforT, RAMKA_DANE_SIZE);
+		pSerial.send(buforT, PILOT_RAMKA_STEROWANIE_SIZE);
 	}
-	*/
 }
 
 
@@ -102,35 +103,4 @@ uint8_t KomunikacjaClass::liczSumeKontr(const uint8_t* buffer, size_t PacketSize
 	return suma_kontrolna;
 }
 
-
-
-// ====== SPRAWDZENIA ======
-
-void KomunikacjaClass::updateSignalState()
-{
-	if (pilot_ping_state == last_pilot_ping_state)
-		stan_sygnalu = false;
-	last_pilot_ping_state = pilot_ping_state;
-	stan_sygnalu = true;
-}
-
-
-bool KomunikacjaClass::isSignal()
-{
-	return stan_sygnalu;
-}
-
-
-
-void KomunikacjaClass::setRxBitByte()
-{
-	pilot_ping_state = dodatkoweRx.b7;
-	//reszta...
-}
-
-
-void KomunikacjaClass::setTxBitByte()
-{
-	dodatkoweTx.b7 = !dodatkoweTx.b7;
-}
 

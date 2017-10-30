@@ -53,7 +53,8 @@ void loop()
 		else kom.zmienna1 = 0;
 		*/
 		
-		//wyslij(RAMKA_STER_TYPE);
+		kom.zmiennaTestowa1.value = 1723.5;
+		kom.wyslij(DRON_RAMKA_TEST_TYPE);
 		
 		
 		last_loop = millis();
