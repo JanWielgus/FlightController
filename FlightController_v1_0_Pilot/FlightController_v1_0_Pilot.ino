@@ -17,14 +17,14 @@ boolean stan_sygnalu = false;
 
 void setup()
 {
-	Serial.begin(9600);
+	//Serial.begin(9600);
 	kom.init(&software_serial);
 }
 
 void loop()
 {
-	kom.odbierz();
-	Serial.println(kom.zmiennaTestowa.value);
+	//kom.odbierz();
+	//Serial.println(kom.zmiennaTestowa.value);
 	
 	if (kom.pong.b0 != ostatni_pong)
 	{
