@@ -24,7 +24,7 @@ class SensorsClass
  public:
 	void init();
 	void readAngles(); // roll, pitch, yaw
-	void updateDeltaTime(); // Zwraca czas wykonywania programu (czas od poprzedniego wywo³ania)
+	//void updateDeltaTime(); // Zwraca czas wykonywania programu (czas od poprzedniego wywo³ania)
 	
 // === ZMIENNE ===
  public:

@@ -21,6 +21,7 @@ void SensorsClass::init()
 
 void SensorsClass::readAngles()
 {
+	dt_ = (double)(micros() - timerPrev) / 1000000;
 	// Read normalized values
 	Vector norm = mpu.readNormalizeGyro();
 	Vector normAccel = mpu.readNormalizeAccel();
@@ -37,16 +38,17 @@ void SensorsClass::readAngles()
 	//-- Filtr komplementarny --
 	pitch = 0.98*pitch + 0.02*pitchAcc;
 	roll = 0.98*roll + 0.02*rollAcc;
+	timerPrev = micros();
 }
 
 
-
+/*
 void SensorsClass::updateDeltaTime()
 {
 	uint32_t nowTime = micros();
 	dt_ = float(nowTime - timerPrev) / 1000000.0;
 	timerPrev = nowTime;
-}
+}*/
 
 
 

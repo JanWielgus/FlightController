@@ -11,6 +11,7 @@
 #include "Komunikacja.h"
 #include "Sensors.h"
 #include "Motors.h"
+#include "PID.h"
 
 
 uint32_t last_loop = 0; // czas ostatniego wykonania funkcji komunikacji
@@ -23,6 +24,8 @@ void setup()
 	kom.init();
 	sensors.init();
 	motors.init();
+	levelX_PID.init(kP_level, kI_level, kD_level);
+	levelY_PID.init(kP_level, kI_level, kD_level);
 	
 	delay(500);
 }
@@ -30,17 +33,22 @@ void setup()
 
 void loop()
 {
+	sensors.readAngles();
+	
 	int value = map(kom.zmienna1, 10, 1023, 0, 1000);
 	value = constrain(value, 0, 1000);
 	//if (value > 1010) value = 1200;
+	
+	if (value != 0) value += levelX_PID.getPID(sensors.pitch, sensors.dt_);
+	//value += sensors.pitch*2;
+	
 	motors.setOnAllMotors(value);
 	
-	
-	sensors.updateDeltaTime();
+
 	
 	
 	uint32_t timenow = millis();
-	if ((timenow - last_loop) > 50)
+	if ((timenow - last_loop) > 48)
 	{
 		kom.odbierz();
 		kom.updateSignal();
