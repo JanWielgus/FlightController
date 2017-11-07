@@ -56,12 +56,15 @@
 
 //<<<<<<<<<=====================     PID     =====================>>>>>>>>>
 
-	#define kP_level 1     // wzmocnienie P PID'u od poziomu
+	#define kP_level 3     // wzmocnienie P PID'u od poziomu (test: 3)
 	#define kI_level 0     // wzmocnienie I PID'u od poziomu
-	#define kD_level 0     // wzmocnienie D PID'u od poziomu
+	#define kD_level 0     // wzmocnienie D PID'u od poziomu  (test: 0.2)
 	
 	#define kP_yaw 1 // wzmocnienie P PD'u od osi z
 	#define kD_yaw 1 // wzmocnienie D PD'u od osi z
+	
+	#define D_error_divisor 4 // dzielnik obliczonego uchybu
 
 
 #endif /* CONFIG_H_ */
+

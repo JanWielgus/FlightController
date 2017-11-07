@@ -27,7 +27,9 @@ float PIDClass::getPID(float _current, float _set, double _deltaT)
 	// -I-
 	val_I += (er_ * kI) * _deltaT;
 	// -D-
+	er_ /= D_error_divisor;
 	float val_D = ((last_error - er_) / _deltaT) * kD;
+	last_error = er_;
 	
 	return val_P + val_I + val_D;
 }
@@ -41,7 +43,9 @@ float PIDClass::getPID(float er_, double _deltaT) // overloaded
 	// -I-
 	val_I += (er_ * kI) * _deltaT;
 	// -D-
+	er_ /= D_error_divisor;
 	float val_D = (last_error - er_) * kD / _deltaT;
+	last_error = er_;
 	
 	return val_P + val_I + val_D;
 }
