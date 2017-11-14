@@ -6,6 +6,7 @@
 
 PIDClass levelX_PID;
 PIDClass levelY_PID;
+PIDClass yaw_PD;
 
 
 // =============================  PUBLIC  =============================
@@ -14,6 +15,15 @@ void PIDClass::init(float _kP, float _kI, float _kD)
 {
 	kP = _kP;
 	kI = _kI;
+	kD = _kD;
+}
+
+
+
+void PIDClass::init(float _kP, float _kD)
+{
+	kP = _kP;
+	kI = 0.0;
 	kD = _kD;
 }
 

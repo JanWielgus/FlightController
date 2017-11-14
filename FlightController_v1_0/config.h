@@ -31,7 +31,7 @@
 	#define PILOT_RAMKA_DANE_SIZE 4
 	#define PILOT_RAMKA_DANE_TYPE 0x01
 	
-	#define PILOT_RAMKA_TEST_SIZE 7
+	#define PILOT_RAMKA_TEST_SIZE 8
 	#define PILOT_RAMKA_TEST_TYPE 0x02
 	// -- nadawane --
 	#define DRON_RAMKA_POZYCJA_SIZE 6

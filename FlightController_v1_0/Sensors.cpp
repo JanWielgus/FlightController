@@ -42,13 +42,4 @@ void SensorsClass::readAngles()
 }
 
 
-/*
-void SensorsClass::updateDeltaTime()
-{
-	uint32_t nowTime = micros();
-	dt_ = float(nowTime - timerPrev) / 1000000.0;
-	timerPrev = nowTime;
-}*/
-
-
 

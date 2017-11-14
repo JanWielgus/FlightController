@@ -60,11 +60,12 @@ void KomunikacjaClass::wyslij(uint8_t typRamki)
 	
 	if (typRamki == PILOT_RAMKA_TEST_TYPE)
 	{
-		buforT[2] = lowByte(zmienna1);
-		buforT[3] = highByte(zmienna1);
-		buforT[4] = lowByte(zmienna2);
-		buforT[5] = highByte(zmienna2);
-		buforT[6] = ping.bajt;
+		buforT[2] = lowByte(pilot.throttle);
+		buforT[3] = highByte(pilot.throttle);
+		buforT[4] = pilot.tilt_TB;
+		buforT[5] = pilot.tilt_LR;
+		buforT[6] = pilot.rotate;
+		buforT[7] = ping.bajt;
 		
 		buforT[0] = liczSumeKontr(buforT, PILOT_RAMKA_TEST_SIZE);
 		

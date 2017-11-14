@@ -37,7 +37,13 @@ class KomunikacjaClass
 // ==== ZMIENNE ====
  public:
 	bitByte pong;
-	int zmienna1, zmienna2;
+	struct steering
+	{
+		uint16_t throttle;
+		int8_t tilt_TB; // <0 is backward
+		int8_t tilt_LR; // <0 is left
+		int8_t rotate; // >0 - right; <0 - left
+		}pilot;
 	floatByte zmiennaTestowa1;
 	
 	bitByte ping;

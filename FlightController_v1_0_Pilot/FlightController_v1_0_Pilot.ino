@@ -37,7 +37,7 @@ void loop()
 	
 	kom.ping.b0 = !kom.ping.b0;
 	
-	kom.zmienna1 = analogRead(A0);
+	kom.pilot.throttle = analogRead(A0);
 	
 	kom.wyslij(PILOT_RAMKA_TEST_TYPE);
 

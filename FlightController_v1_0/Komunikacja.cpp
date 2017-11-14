@@ -31,9 +31,11 @@ void KomunikacjaClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 {
 	if (bufferR[1] == PILOT_RAMKA_TEST_TYPE && PacketSize == PILOT_RAMKA_TEST_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
 	{
-		zmienna1 = word(bufferR[3], bufferR[2]);
-		zmienna2 = word(bufferR[5], bufferR[4]);
-		pong.bajt = bufferR[6];
+		pilot.throttle  = word(bufferR[3], bufferR[2]);
+		pilot.tilt_TB   = bufferR[4];
+		pilot.tilt_LR   = bufferR[5];
+		pilot.rotate    = bufferR[6];
+		pong.bajt       = bufferR[7];
 	}
 }
 
@@ -45,10 +47,10 @@ void KomunikacjaClass::wyslij(uint8_t typRamki)
 	
 	if (typRamki == DRON_RAMKA_TEST_TYPE)
 	{
-		buforT[2] = zmiennaTestowa1.bajt[0];
-		buforT[3] = zmiennaTestowa1.bajt[1];
-		buforT[4] = zmiennaTestowa1.bajt[2];
-		buforT[5] = zmiennaTestowa1.bajt[3];
+		buforT[2] =  zmiennaTestowa1.bajt[0];
+		buforT[3] =  zmiennaTestowa1.bajt[1];
+		buforT[4] =  zmiennaTestowa1.bajt[2];
+		buforT[5] =  zmiennaTestowa1.bajt[3];
 		
 		buforT[0] = liczSumeKontr(buforT, DRON_RAMKA_TEST_SIZE);
 		
