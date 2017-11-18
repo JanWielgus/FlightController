@@ -27,9 +27,15 @@ class SensorsClass
 	
 // === ZMIENNE ===
  public:
-	double pitch = 0;
-	double roll = 0;
-	float yaw = 0;
+	//double pitch = 0;
+	//double roll = 0;
+	//float  yaw = 0;
+	struct ypr_angles
+	{
+		double pitch = 0;
+		double roll = 0;
+		float  yaw = 0;
+		}angle;
 	double dt_;
 	
  private:

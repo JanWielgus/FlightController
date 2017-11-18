@@ -18,9 +18,10 @@
 	
 	//      ===  TYLKO TABLICE O WYMIARACH TAKICH JAK RAMKA, NIE WIÊKSZE !!!  ===
 	
-	#define serialPort 0	  //Serial: 0, Serial1: 1, Serial2: 2, Serial3: 3
+	#define serialPort 0	           //Serial: 0, Serial1: 1, Serial2: 2, Serial3: 3
 	#define BAUD_RATE 9600
-	#define MAX_SEND_SIZE 12  // Wielkosæ najwiêkszej ramki
+	#define COMMUNICATION_PER_SECOND 20     // Iloœæ wywo³ania funkcji komunikacji w ci¹gu sekundy
+	#define MAX_SEND_SIZE 12           // Wielkosæ najwiêkszej ramki
 
 	// Szablon: nadawca_RAMKA_nazwa_SIZE/TYPE
 	
@@ -48,10 +49,14 @@
 
 //<<<<<<<<<=====================     MOTORS     =====================>>>>>>>>>
 
-	#define TLmotorPin 5   // Top left
-	#define TRmotorPin 6   // Top right
-	#define BLmotorPin 9   // Back left
-	#define BRmotorPin 10  // Back right
+	#define TLmotorPin 5      // Top left
+	#define TRmotorPin 6      // Top right
+	#define BLmotorPin 9      // Back left
+	#define BRmotorPin 10     // Back right
+	
+	#define MOTOR_MIN 1000    // Minimum value on the motor
+	#define MOTOR_MAX 2000    // Maximum value on the motor
+	#define MOTOR_IDLE 1000   // Value when motor is idle
 
 
 //<<<<<<<<<=====================     PID     =====================>>>>>>>>>
@@ -64,6 +69,14 @@
 	#define kD_yaw 1 // wzmocnienie D PD'u od osi z
 	
 	#define D_error_divisor 4 // dzielnik obliczonego uchybu
+	
+	
+	
+	
+//<<<<<<<<<=====================     AUTO CALCULATIONS     =====================>>>>>>>>>
+	
+	#define COMMUNICATION_WAIT_TIME (int(1000/COMMUNICATION_PER_SECOND)-2)
+	
 
 
 #endif /* CONFIG_H_ */

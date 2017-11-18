@@ -17,22 +17,88 @@ void MotorsClass::init()
 
 
 
-void MotorsClass::setOnAllMotors(uint16_t _val)
+void MotorsClass::armMotors(bool _state)
 {
-	_val += 1000;
-	_val = constrain(_val, 1000, 2000);
-	
-	mTL.writeMicroseconds(_val);
-	mTR.writeMicroseconds(_val);
-	mBL.writeMicroseconds(_val);
-	mBR.writeMicroseconds(_val);
+	armState = _state;
 }
 
 
 
-void MotorsClass::setOnEachMotor(uint16_t mot1, uint16_t mot2, uint16_t mot3, uint16_t mot4)
+void MotorsClass::setOnAllMotors(int16_t _val)
 {
-	//mot1 = (mot1 / 2) + 1000;
+	if (armState)
+	{
+		_val += 1000;
+		_val = constrain(_val, MOTOR_MIN, MOTOR_MAX);
+		
+		mTL.writeMicroseconds(_val);
+		mTR.writeMicroseconds(_val);
+		mBL.writeMicroseconds(_val);
+		mBR.writeMicroseconds(_val);
+	}
+	else
+	{
+		mTL.writeMicroseconds(MOTOR_IDLE);
+		mTR.writeMicroseconds(MOTOR_IDLE);
+		mBL.writeMicroseconds(MOTOR_IDLE);
+		mBR.writeMicroseconds(MOTOR_IDLE);
+	}
+}
+
+
+
+void MotorsClass::setOnTL(int16_t _val)
+{
+	if (armState)
+	{
+		_val += 1000;
+		_val = constrain(_val, MOTOR_MIN, MOTOR_MAX);
+		mTL.writeMicroseconds(_val);
+	}
+	else
+		mTL.writeMicroseconds(MOTOR_IDLE);
+}
+
+
+
+void MotorsClass::setOnTR(int16_t _val)
+{
+	if (armState)
+	{
+		_val += 1000;
+		_val = constrain(_val, MOTOR_MIN, MOTOR_MAX);
+		mTR.writeMicroseconds(_val);
+	}
+	else
+		mTR.writeMicroseconds(MOTOR_IDLE);
+}
+
+
+
+void MotorsClass::setOnBL(int16_t _val)
+{
+	if (armState)
+	{
+		_val += 1000;
+		_val = constrain(_val, MOTOR_MIN, MOTOR_MAX);
+		mBL.writeMicroseconds(_val);
+	}
+	else
+		mBL.writeMicroseconds(MOTOR_IDLE);
+}
+
+
+
+void MotorsClass::setOnBR(int16_t _val)
+{
+	if (armState)
+	{
+		_val += 1000;
+		_val = constrain(_val, MOTOR_MIN, MOTOR_MAX);
+		mBR.writeMicroseconds(_val);
+	}
+	else
+		mBR.writeMicroseconds(MOTOR_IDLE);
 }
 
 

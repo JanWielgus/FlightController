@@ -18,19 +18,29 @@
 class MotorsClass
 {
  public:
-	Servo mTL;
-	Servo mTR;
-	Servo mBL;
-	Servo mBR;
+	Servo mTL;   // Top left
+	Servo mTR;   // Top right
+	Servo mBL;   // Back left
+	Servo mBR;   // Back right
 	
 // === FUNKCJE ===
  public:
-	void init(); // wskaŸnik na obiekt serwa i pin silnika
-	void setOnAllMotors(uint16_t _val); // parametr od 0 do 1000
-	void setOnEachMotor(uint16_t mot1, uint16_t mot2, uint16_t mot3, uint16_t mot4);
+	void init();                        // inicjalizacja
+	void setOnAllMotors(int16_t _val);  // parametr od 0 do 1000
+	void armMotors(bool _state);        // Uzbrajanie/rozzbrajanie silników (true - arm, false - disarm)
+	
+	// Ustawianie na odpowiednie silniki
+	void setOnTL(int16_t _val);    // parametr od 0 do 1000
+	void setOnTR(int16_t _val);    // parametr od 0 do 1000
+	void setOnBL(int16_t _val);    // parametr od 0 do 1000
+	void setOnBR(int16_t _val);    // parametr od 0 do 1000
 	
 // === ZMIENNE ===
  public:
+	
+	
+ private:
+	bool armState = false;    // Zmienna stanu uzbrojenia silników
 	
 };
 

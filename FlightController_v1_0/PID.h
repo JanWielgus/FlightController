@@ -23,7 +23,6 @@ class PIDClass
 	void init(float _kP, float _kI, float _kD);                     // inicjalizacja
 	void init(float _kP, float _kD);                                // inicjalizacja (funkcja przeci¹¿ona)
 	float getPID(float _current, float _set, double _deltaT);       // zwraca obliczon¹ wartoœæ P+I+D
-	float getPID(float _error, double _deltaT);                     // zwraca obliczon¹ warioœæ P+I+D (funkcja przeci¹¿ona)
 	float getPD(float current, float set, double deltaT);           // zwraca obliczon¹ wartoœæ P+D
 	
  private:
@@ -35,7 +34,7 @@ class PIDClass
  private:
 	float kP, kI, kD;    // Wzmocznienia poszczególnych cz³onów kontrolera PID
 	double val_I = 0;    // wartoœæ ca³ki
-	float last_error;  // ostatnia wartoœæ b³êdu (do oblicznania D)
+	float last_error;    // ostatnia wartoœæ b³êdu (do oblicznania D)
 };
 
 extern PIDClass levelX_PID;

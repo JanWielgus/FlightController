@@ -27,17 +27,17 @@ void SensorsClass::readAngles()
 	Vector normAccel = mpu.readNormalizeAccel();
 	
 	// Calculate Pitch, Roll and Yaw (Gyro)
-	pitch = pitch + norm.YAxis * dt_;
-	roll = roll + norm.XAxis * dt_;
-	yaw = yaw + norm.ZAxis * dt_;
+	angle.pitch = angle.pitch + norm.YAxis * dt_;
+	angle.roll = angle.roll + norm.XAxis * dt_;
+	angle.yaw = angle.yaw + norm.ZAxis * dt_;
 
 	// Calculate Pitch and Roll (Acc)
 	pitchAcc = -(atan2(normAccel.XAxis, sqrt(normAccel.YAxis*normAccel.YAxis + normAccel.ZAxis*normAccel.ZAxis))*180.0)/M_PI;
 	rollAcc = (atan2(normAccel.YAxis, normAccel.ZAxis)*180.0)/M_PI;
 	
 	//-- Filtr komplementarny --
-	pitch = 0.98*pitch + 0.02*pitchAcc;
-	roll = 0.98*roll + 0.02*rollAcc;
+	angle.pitch = 0.98*angle.pitch + 0.02*pitchAcc;
+	angle.roll = 0.98*angle.roll + 0.02*rollAcc;
 	timerPrev = micros();
 }
 

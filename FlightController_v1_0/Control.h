@@ -24,9 +24,9 @@ class ControlClass
 {
 //  =====   FUNKCJE   =====
  public:
-	void init();
-	void updateCommunication();
-	void stabilize();
+	void init();                  // inicjalizacja wszystkich podzespo³ów drona
+	void updateCommunication();   // aktualizacja komunikacji w odpowiednim czasie
+	void stabilize();             // stabilizacja drona i utrzymywanie kierunku
 	
 	
 //  =====   ZMIENNE   =====

@@ -9,7 +9,7 @@
  */
 
 #include "Control.h"
-// reszra w piliku powy¿ej
+// reszra includ'ów w piliku powy¿ej
 
 
 

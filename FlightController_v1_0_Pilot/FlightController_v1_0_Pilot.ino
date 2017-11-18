@@ -39,6 +39,9 @@ void loop()
 	
 	kom.pilot.throttle = analogRead(A0);
 	
+	kom.pilot.throttle = map(kom.pilot.throttle, 10, 1023, 0, 1000);
+	kom.pilot.throttle = constrain(kom.pilot.throttle, 0, 1000);
+	
 	kom.wyslij(PILOT_RAMKA_TEST_TYPE);
 
 	if (stan_sygnalu == true) digitalWrite(LED_BUILTIN, HIGH);

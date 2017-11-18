@@ -25,3 +25,19 @@ Opis protokolu Modernity Master-Manipulator Serial:
 	1. 8 bitow bool: bit 7 - sygnal "pong" drona, bit 6 - 
 	2. Stan baterii (unsigned 8b)
 	3. Wysokoœæ wzglêdna (unsigned 8b)
+	
+
+
+
+	
+Lista zmiennych:
+	- g³ówna moc silników     (uint16_t)  - pilot.throttle
+	- lot w przód/ty³         (int8_t)    - pilot.tilt_TB
+	- lot w prawo/lewo        (int8_t)    - pilot.tilt_LR
+	- obracanie               (int8_t)    - pilot.rotate
+	- typ bitByte             (uint8_t)   - pong
+	- tryby lotu              (uint8_t)
+	- stan baterii            (uint8_t)
+	- longtitude              (float)
+	- latitude                (float)
+	- ...
