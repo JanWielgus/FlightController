@@ -49,6 +49,21 @@ class KomunikacjaClass
 	
 	bitByte ping;           // 8 boolean'ów wysy³anych
 	
+	// Zmienne konfiguracji od pilota
+	struct configVar
+	{
+		// Poziomowanie
+		floatByte kP_level;          // wzmocnienie P PID'u od poziomu (test: 3)
+		floatByte kI_level;          // wzmocnienie I PID'u od poziomu
+		floatByte kD_level;          // wzmocnienie D PID'u od poziomu  (test: 0.2)
+		uint8_t I_level_limiter;     // Ograniczenie cz³onu ca³kuj¹cego
+		
+		// Utrzymanie kierunku
+		floatByte kP_yaw;            // wzmocnienie P PD'u od osi z
+		floatByte kD_yaw;            // wzmocnienie D PD'u od osi z
+	}conf;
+	bool recievedFirstConfigPacket = false;  // Czy odebrano pakiet z konfiguracj¹ od pilota
+	
  private:
 	boolean ostatni_pong = false; // stan ostatniego odebranego pongu
 	int zgubione_ramki = 0;       // liczba nieodebranych ramek

@@ -12,12 +12,22 @@ void ControlClass::init()
 	kom.init();                                       // inicjalizacja komunikacji
 	sensors.init();                                   // inicjalizacja wszystkich czujników
 	motors.init();                                    // inicjalizacja silników
-	// Inicjalizacja PID'ów
-	levelX_PID.init(kP_level, kI_level, kD_level);
-	levelY_PID.init(kP_level, kI_level, kD_level);
-	yaw_PD.init(kP_yaw, kD_yaw);
 	
-	delay(500);
+	// Dopóki nie odbierze konfiguracji od pilota
+	while (!kom.recievedFirstConfigPacket)
+		kom.odbierz();
+	
+	// Inicjalizacja PID'ów
+	levelX_PID.setPID_gains(kom.conf.kP_level.value,
+							kom.conf.kI_level.value,
+							kom.conf.kD_level.value);
+	levelY_PID.setPID_gains(kom.conf.kP_level.value,
+							kom.conf.kI_level.value,
+							kom.conf.kD_level.value);
+	yaw_PD.setPD_gains(kom.conf.kP_yaw.value,
+					   kom.conf.kD_yaw.value);
+	
+	delay(100);
 }
 
 

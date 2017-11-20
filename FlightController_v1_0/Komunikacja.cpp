@@ -37,6 +37,41 @@ void KomunikacjaClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 		pilot.rotate    = bufferR[6];
 		pong.bajt       = bufferR[7];
 	}
+	
+	// [...]
+	
+	else if (bufferR[1] == PILOT_RAMKA_CONFIG_TYPE && PacketSize == PILOT_RAMKA_CONFIG_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
+	{
+		conf.kP_level.bajt[0]    = bufferR[2];
+		conf.kP_level.bajt[1]    = bufferR[3];
+		conf.kP_level.bajt[2]    = bufferR[4];
+		conf.kP_level.bajt[3]    = bufferR[5];
+		
+		conf.kI_level.bajt[0]    = bufferR[6];
+		conf.kI_level.bajt[1]    = bufferR[7];
+		conf.kI_level.bajt[2]    = bufferR[8];
+		conf.kI_level.bajt[3]    = bufferR[9];
+		
+		conf.kD_level.bajt[0]    = bufferR[10];
+		conf.kD_level.bajt[1]    = bufferR[11];
+		conf.kD_level.bajt[2]    = bufferR[12];
+		conf.kD_level.bajt[3]    = bufferR[13];
+		
+		conf.I_level_limiter     = bufferR[14];
+		
+		conf.kP_yaw.bajt[0]      = bufferR[15];
+		conf.kP_yaw.bajt[1]      = bufferR[16];
+		conf.kP_yaw.bajt[2]      = bufferR[17];
+		conf.kP_yaw.bajt[3]      = bufferR[18];
+		
+		conf.kD_yaw.bajt[0]      = bufferR[19];
+		conf.kD_yaw.bajt[1]      = bufferR[20];
+		conf.kD_yaw.bajt[2]      = bufferR[21];
+		conf.kD_yaw.bajt[3]      = bufferR[22];
+		
+		
+		recievedFirstConfigPacket = true;  // Odebrano pierwszy pakiet konfiguracyjny
+	}
 }
 
 

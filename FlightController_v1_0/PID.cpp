@@ -11,7 +11,7 @@ PIDClass yaw_PD;
 
 // =============================  PUBLIC  =============================
 
-void PIDClass::init(float _kP, float _kI, float _kD)
+void PIDClass::setPID_gains(float _kP, float _kI, float _kD)
 {
 	kP = _kP;
 	kI = _kI;
@@ -20,7 +20,7 @@ void PIDClass::init(float _kP, float _kI, float _kD)
 
 
 
-void PIDClass::init(float _kP, float _kD)
+void PIDClass::setPD_gains(float _kP, float _kD)
 {
 	kP = _kP;
 	kI = 0.0;

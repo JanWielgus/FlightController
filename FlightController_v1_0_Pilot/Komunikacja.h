@@ -33,6 +33,8 @@ class KomunikacjaClass
 	bool sprawdzSumeKontr(const uint8_t* buffer, size_t PacketSize);
 	uint8_t liczSumeKontr(const uint8_t* buffer, size_t PacketSize);
 	
+	void setupConfigPacket();  // Ustawianie odpowiednich parametrów konfiguracji drona
+	
 // ===== ZMIENNE =====
  public:
 	//wysy³ane
@@ -45,6 +47,21 @@ class KomunikacjaClass
 		}pilot;
 	bitByte ping;
 	floatByte zmiennaTestowa;
+	
+	
+	// Zmienne konfiguracji drona
+	struct configVar
+	{
+		// Poziomowanie
+		floatByte kP_level;          // wzmocnienie P PID'u od poziomu (test: 3)
+		floatByte kI_level;          // wzmocnienie I PID'u od poziomu
+		floatByte kD_level;          // wzmocnienie D PID'u od poziomu  (test: 0.2)
+		uint8_t I_level_limiter;     // Ograniczenie cz³onu ca³kuj¹cego
+		
+		// Utrzymanie kierunku
+		floatByte kP_yaw;            // wzmocnienie P PD'u od osi z
+		floatByte kD_yaw;            // wzmocnienie D PD'u od osi z
+	}conf;
 	
 	//odebrane
 	bitByte pong;

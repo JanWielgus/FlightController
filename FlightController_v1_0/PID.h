@@ -20,8 +20,8 @@ class PIDClass
 {
 //  =====   FUNKCJE   =====
  public:
-	void init(float _kP, float _kI, float _kD);                     // inicjalizacja
-	void init(float _kP, float _kD);                                // inicjalizacja (funkcja przeci¹¿ona)
+	void setPID_gains(float _kP, float _kI, float _kD);             // ustawianie wzmocnieñ
+	void setPD_gains(float _kP, float _kD);                         // ustawianie wzmocnieñ
 	float getPID(float _current, float _set, double _deltaT);       // zwraca obliczon¹ wartoœæ P+I+D
 	float getPD(float current, float set, double deltaT);           // zwraca obliczon¹ wartoœæ P+D
 	

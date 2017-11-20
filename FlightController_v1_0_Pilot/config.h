@@ -19,7 +19,7 @@
 	//      ===  TYLKO TABLICE O WYMIARACH TAKICH JAK RAMKA, NIE WIÊKSZE !!!  ===
 	
 	#define BAUD_RATE 9600
-	#define MAX_SEND_SIZE 12  // Wielkosæ najwiêkszej ramki
+	#define MAX_SEND_SIZE 25  // Wielkosæ najwiêkszej ramki
 
 	// Szablon: nadawca_RAMKA_nazwa_SIZE/TYPE
 	
@@ -32,6 +32,9 @@
 
 	#define PILOT_RAMKA_TEST_SIZE 8
 	#define PILOT_RAMKA_TEST_TYPE 0x02
+	
+	#define PILOT_RAMKA_CONFIG_SIZE 23
+	#define PILOT_RAMKA_CONFIG_TYPE 0x03
 	// -- odebrane --
 	#define DRON_RAMKA_POZYCJA_SIZE 6
 	#define DRON_RAMKA_POZYCJA_TYPE 0x05

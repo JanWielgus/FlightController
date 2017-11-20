@@ -21,7 +21,7 @@
 	#define serialPort 0	           //Serial: 0, Serial1: 1, Serial2: 2, Serial3: 3
 	#define BAUD_RATE 9600
 	#define COMMUNICATION_PER_SECOND 20     // Iloœæ wywo³ania funkcji komunikacji w ci¹gu sekundy
-	#define MAX_SEND_SIZE 12           // Wielkosæ najwiêkszej ramki
+	#define MAX_SEND_SIZE 25           // Wielkosæ najwiêkszej ramki
 
 	// Szablon: nadawca_RAMKA_nazwa_SIZE/TYPE
 	
@@ -34,6 +34,9 @@
 	
 	#define PILOT_RAMKA_TEST_SIZE 8
 	#define PILOT_RAMKA_TEST_TYPE 0x02
+	
+	#define PILOT_RAMKA_CONFIG_SIZE 23
+	#define PILOT_RAMKA_CONFIG_TYPE 0x03
 	// -- nadawane --
 	#define DRON_RAMKA_POZYCJA_SIZE 6
 	#define DRON_RAMKA_POZYCJA_TYPE 0x05
@@ -64,16 +67,7 @@
 
 //<<<<<<<<<=====================     PID     =====================>>>>>>>>>
 
-	#define kP_level 3     // wzmocnienie P PID'u od poziomu (test: 3)
-	#define kI_level 0     // wzmocnienie I PID'u od poziomu
-	#define kD_level 0     // wzmocnienie D PID'u od poziomu  (test: 0.2)
-	
-	#define kP_yaw 1 // wzmocnienie P PD'u od osi z
-	#define kD_yaw 1 // wzmocnienie D PD'u od osi z
-	
 	#define D_error_divisor 4 // dzielnik obliczonego uchybu
-	
-	
 	
 	
 //<<<<<<<<<=====================     AUTO CALCULATIONS     =====================>>>>>>>>>
