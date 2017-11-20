@@ -32,8 +32,12 @@ void SensorsClass::readAngles()
 	angle.yaw = angle.yaw + norm.ZAxis * dt_;
 
 	// Calculate Pitch and Roll (Acc)
-	pitchAcc = -(atan2(normAccel.XAxis, sqrt(normAccel.YAxis*normAccel.YAxis + normAccel.ZAxis*normAccel.ZAxis))*180.0)/M_PI;
+	pitchAcc = -(atan2(normAccel.XAxis, normAccel.ZAxis)*180.0)/M_PI;
 	rollAcc = (atan2(normAccel.YAxis, normAccel.ZAxis)*180.0)/M_PI;
+	
+	// Offsets
+	pitchAcc -= PITCH_OFFSET;
+	rollAcc  -= ROLL_OFFSET;
 	
 	//-- Filtr komplementarny --
 	angle.pitch = 0.98*angle.pitch + 0.02*pitchAcc;

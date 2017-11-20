@@ -14,6 +14,7 @@
 #include <Wire.h>
 #include <MPU6050.h>
 #include <MS5611.h>
+#include "config.h"
 
 
 class SensorsClass

@@ -46,13 +46,16 @@
 
 //<<<<<<<<<=====================     SENSORS     =====================>>>>>>>>>
 
+	#define PITCH_OFFSET -0.5   // Offset osi x
+	#define ROLL_OFFSET  -1.0   // Offset osi y
+
 
 //<<<<<<<<<=====================     MOTORS     =====================>>>>>>>>>
 
 	#define TLmotorPin 5      // Top left
 	#define TRmotorPin 6      // Top right
-	#define BLmotorPin 9      // Back left
-	#define BRmotorPin 10     // Back right
+	#define BRmotorPin 9      // Back left
+	#define BLmotorPin 10     // Back right
 	
 	#define MOTOR_MIN 1000    // Minimum value on the motor
 	#define MOTOR_MAX 2000    // Maximum value on the motor

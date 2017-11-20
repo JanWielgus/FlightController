@@ -62,10 +62,10 @@ void ControlClass::stabilize()
 	float pidX = levelX_PID.getPID(sensors.angle.pitch, 0, sensors.dt_);
 	float pidY = levelY_PID.getPID(sensors.angle.roll, 0, sensors.dt_);
 	
-	motors.setOnTL(motor_main_power + pidX + pidY);
-	motors.setOnTR(motor_main_power + pidX - pidY);
-	motors.setOnBR(motor_main_power - pidX - pidY);
-	motors.setOnBL(motor_main_power - pidX + pidY);
+	motors.setOnTL(motor_main_power + pidX - pidY);
+	motors.setOnTR(motor_main_power + pidX + pidY);
+	motors.setOnBR(motor_main_power - pidX + pidY);
+	motors.setOnBL(motor_main_power - pidX - pidY);
 }
 
 
