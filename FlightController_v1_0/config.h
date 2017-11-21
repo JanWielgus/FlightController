@@ -11,6 +11,10 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
+//<<<<<<<<<=====================     PRZE£¥CZNIKI     =====================>>>>>>>>>
+
+	#define FILTR_KALMANA    // Pitch i roll przefiltrowanie filtrem kalmana bez filtra komplementarnego
+
 
 //<<<<<<<<<=====================     KOMUNIKACJA     =====================>>>>>>>>>
 

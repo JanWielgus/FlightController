@@ -15,12 +15,19 @@
 #include <MPU6050.h>
 #include <MS5611.h>
 #include "config.h"
+#ifdef FILTR_KALMANA
+	#include "FiltrKalmana.h"
+#endif
 
 
 class SensorsClass
 {
  public:
 	MPU6050 mpu;
+	#ifdef FILTR_KALMANA
+		FiltrKalmanaClass fkPitch;
+		FiltrKalmanaClass fkRoll;
+	#endif
 // === FUNKCJE ===
  public:
 	void init();
