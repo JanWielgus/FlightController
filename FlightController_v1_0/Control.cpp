@@ -17,16 +17,6 @@ void ControlClass::init()
 	while (!kom.recievedFirstConfigPacket)
 		kom.odbierz();
 	
-	// Inicjalizacja PID'ów
-	levelX_PID.setPID_gains(kom.conf.kP_level.value,
-							kom.conf.kI_level.value,
-							kom.conf.kD_level.value);
-	levelY_PID.setPID_gains(kom.conf.kP_level.value,
-							kom.conf.kI_level.value,
-							kom.conf.kD_level.value);
-	yaw_PD.setPD_gains(kom.conf.kP_yaw.value,
-					   kom.conf.kD_yaw.value);
-	
 	delay(100);
 }
 
@@ -76,6 +66,19 @@ void ControlClass::stabilize()
 	motors.setOnTR(motor_main_power + pidX + pidY);
 	motors.setOnBR(motor_main_power - pidX + pidY);
 	motors.setOnBL(motor_main_power - pidX - pidY);
+}
+
+
+
+void ControlClass::configureESC()
+{
+	motors.armMotors(true);
+	int motor_main_power = kom.pilot.throttle;
+	
+	motors.setOnTL(motor_main_power);
+	motors.setOnTR(motor_main_power);
+	motors.setOnBR(motor_main_power);
+	motors.setOnBL(motor_main_power);
 }
 
 

@@ -21,8 +21,11 @@ void setup()
 	kom.init(&software_serial);
 	kom.setupConfigPacket();
 	
-	delay(500);
+	delay(100);
 	kom.wyslij(PILOT_RAMKA_CONFIG_TYPE);
+	delay(50);
+	kom.wyslij(PILOT_RAMKA_CONFIG_TYPE);
+	delay(10);
 }
 
 void loop()

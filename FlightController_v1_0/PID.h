@@ -12,6 +12,7 @@
 	#include "WProgram.h"
 #endif
 
+#include "Komunikacja.h"
 #include "config.h"
 
 

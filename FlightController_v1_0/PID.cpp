@@ -36,9 +36,10 @@ float PIDClass::getPID(float _current, float _set, double _deltaT)
 	float val_P = er_*kP;
 	// -I-
 	val_I += (er_ * kI) * _deltaT;
+	val_I = constrain(val_I, -kom.conf.I_level_limiter, kom.conf.I_level_limiter);
 	// -D-
 	er_ /= D_error_divisor;
-	float val_D = ((last_error - er_) / _deltaT) * kD;
+	float val_D = ((er_ - last_error) / _deltaT) * kD;
 	last_error = er_;
 	
 	return val_P + val_I + val_D;

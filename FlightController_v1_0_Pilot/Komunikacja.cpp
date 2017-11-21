@@ -141,10 +141,10 @@ uint8_t KomunikacjaClass::liczSumeKontr(const uint8_t* buffer, size_t PacketSize
 
 void KomunikacjaClass::setupConfigPacket()
 {
-	conf.kP_level.value = 5;
+	conf.kP_level.value = 10;
 	conf.kI_level.value = 0;
-	conf.kD_level.value = 0;
-	conf.I_level_limiter = 30; // Max: 255
+	conf.kD_level.value = 0.0;
+	conf.I_level_limiter = 80; // Max: 255
 	
 	conf.kP_yaw.value = 0;
 	conf.kD_yaw.value = 0;

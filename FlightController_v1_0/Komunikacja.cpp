@@ -69,6 +69,16 @@ void KomunikacjaClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 		conf.kD_yaw.bajt[2]      = bufferR[21];
 		conf.kD_yaw.bajt[3]      = bufferR[22];
 		
+		// Inicjalizacja PID'ów
+		levelX_PID.setPID_gains(kom.conf.kP_level.value,
+								kom.conf.kI_level.value,
+								kom.conf.kD_level.value);
+		levelY_PID.setPID_gains(kom.conf.kP_level.value,
+								kom.conf.kI_level.value,
+								kom.conf.kD_level.value);
+		yaw_PD.setPD_gains(kom.conf.kP_yaw.value,
+						   kom.conf.kD_yaw.value);
+		
 		
 		recievedFirstConfigPacket = true;  // Odebrano pierwszy pakiet konfiguracyjny
 	}
