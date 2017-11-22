@@ -222,6 +222,6 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 *.atsuo
-*.cppproj
+#*.cppproj
 *.xml
-*.atsln
+#*.atsln
