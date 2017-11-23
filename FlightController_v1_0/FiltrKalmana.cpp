@@ -16,13 +16,14 @@ void FiltrKalmanaClass::init(double angle, double bias, double measure)
 	P[1][0] = 0;
 	P[1][1] = 0;
 
-	kt = (double)micros();
+	//kt = (double)micros();
 }
 
 
 double FiltrKalmanaClass::update(double newValue, double newRate)
 {
-	dt = (double)(micros() - kt) / 1000000; //ewentualnie ustawiæ na sztywno czas (z highTask goodtaskera)
+	//dt = (double)(micros() - kt) / 1000000; //ewentualnie ustawiæ na sztywno czas (z highTask goodtaskera)
+	dt = DELTA_TIME_SEC;
 
 	K_rate = newRate - K_bias;
 	K_angle += dt * K_rate;
@@ -47,7 +48,7 @@ double FiltrKalmanaClass::update(double newValue, double newRate)
 	P[1][0] -= K[1] * P[0][0];
 	P[1][1] -= K[1] * P[0][1];
 
-	kt = (double)micros();
+	//kt = (double)micros();
 
 	return K_angle;
 }

@@ -27,7 +27,7 @@ void SensorsClass::init()
 void SensorsClass::readAngles()
 {
 	#ifdef FILTR_KALMANA
-		dt_ = (double)(micros() - timerPrev) / 1000000;  // dla PID
+		//dt_ = (double)(micros() - timerPrev) / 1000000;  // dla PID
 		Vector accVal = mpu.readNormalizeAccel();
 		Vector gyrVal = mpu.readNormalizeGyro();
 		
@@ -37,10 +37,10 @@ void SensorsClass::readAngles()
 		angle.pitch = fkPitch.update(pitchAcc, gyrVal.YAxis);
 		angle.roll  = fkRoll.update(rollAcc, gyrVal.XAxis);
 		
-		timerPrev = micros();  // dla PID
+		//timerPrev = micros();  // dla PID
 		
 	#else
-		dt_ = (double)(micros() - timerPrev) / 1000000;
+		//dt_ = (double)(micros() - timerPrev) / 1000000;
 		
 		// Read normalized values
 		Vector norm = mpu.readNormalizeGyro();
@@ -52,7 +52,7 @@ void SensorsClass::readAngles()
 		angle.yaw   += (norm.ZAxis-GYRO_Z_OFFSET) * dt_;
 
 		// Calculate Pitch and Roll (Acc)
-		pitchAcc = -(atan2(normAccel.XAxis, normAccel.ZAxis)*180.0)/M_PI;
+		pitchAcc = -(atan2(normAccel.XAxis, sqrt(normAccel.YAxis*normAccel.YAxis + normAccel.ZAxis*normAccel.ZAxis))*180.0)/M_PI;
 		rollAcc =   (atan2(normAccel.YAxis, normAccel.ZAxis)*180.0)/M_PI;
 		
 		// Offsets
@@ -62,7 +62,7 @@ void SensorsClass::readAngles()
 		//-- Filtr komplementarny --
 		angle.pitch = 0.98*angle.pitch + 0.02*pitchAcc;
 		angle.roll  = 0.98*angle.roll  + 0.02*rollAcc;
-		timerPrev = micros();
+		//timerPrev = micros();
 	#endif
 }
 

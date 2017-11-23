@@ -44,7 +44,8 @@ class SensorsClass
 		double roll = 0;
 		float  yaw = 0;
 		}angle;
-	double dt_;
+	//double dt_;
+	const double dt_ = DELTA_TIME_SEC;
 	
  private:
 	float pitchAcc = 0;

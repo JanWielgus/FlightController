@@ -21,8 +21,14 @@ void setup()
 
 void loop()
 {
+	uint32_t loop_start_time = micros();
+	
 	copter.updateCommunication();
 	copter.stabilize();
+	
+	// Sta³y czas wykonywania pêtli
+	int16_t temporary = DELTA_TIME-(micros()-loop_start_time);
+	delayMicroseconds(temporary>=0?temporary:0);  // Wype³niaj pozosta³y czas
 }
 
 

@@ -13,7 +13,7 @@
 
 //<<<<<<<<<=====================     PRZE£¥CZNIKI     =====================>>>>>>>>>
 
-	#define FILTR_KALMANA    // Pitch i roll przefiltrowanie filtrem kalmana bez filtra komplementarnego
+	//#define FILTR_KALMANA    // Pitch i roll przefiltrowanie filtrem kalmana bez filtra komplementarnego
 
 
 //<<<<<<<<<=====================     KOMUNIKACJA     =====================>>>>>>>>>
@@ -22,10 +22,10 @@
 	
 	//      ===  TYLKO TABLICE O WYMIARACH TAKICH JAK RAMKA, NIE WIÊKSZE !!!  ===
 	
-	#define serialPort 0	           //Serial: 0, Serial1: 1, Serial2: 2, Serial3: 3
+	#define serialPort 0	                //Serial: 0, Serial1: 1, Serial2: 2, Serial3: 3
 	#define BAUD_RATE 9600
 	#define COMMUNICATION_PER_SECOND 20     // Iloœæ wywo³ania funkcji komunikacji w ci¹gu sekundy
-	#define MAX_SEND_SIZE 25           // Wielkosæ najwiêkszej ramki
+	#define MAX_SEND_SIZE 25                // Wielkosæ najwiêkszej ramki
 
 	// Szablon: nadawca_RAMKA_nazwa_SIZE/TYPE
 	
@@ -53,12 +53,14 @@
 
 //<<<<<<<<<=====================     SENSORS     =====================>>>>>>>>>
 
-	#define PITCH_OFFSET -0.5   // Offset osi x
-	#define ROLL_OFFSET  -1.0   // Offset osi y
+	#define DELTA_TIME 5555          // Czas pracy jednej pêtli programu [w micros]
+
+	#define PITCH_OFFSET -0.5        // Offset osi x
+	#define ROLL_OFFSET  -1.0        // Offset osi y
 	
-	#define GYRO_X_OFFSET -2.1     // Offset ¿yroskopu oœ x
-	#define GYRO_Y_OFFSET 1.5     // Offset ¿yroskopu oœ y
-	#define GYRO_Z_OFFSET 0     // Offset ¿yroskopu oœ z
+	#define GYRO_X_OFFSET -2.1       // Offset ¿yroskopu oœ x
+	#define GYRO_Y_OFFSET 1.5        // Offset ¿yroskopu oœ y
+	#define GYRO_Z_OFFSET 0          // Offset ¿yroskopu oœ z
 
 
 //<<<<<<<<<=====================     MOTORS     =====================>>>>>>>>>
@@ -81,6 +83,7 @@
 //<<<<<<<<<=====================     AUTO CALCULATIONS     =====================>>>>>>>>>
 	
 	#define COMMUNICATION_WAIT_TIME (int(1000/COMMUNICATION_PER_SECOND)-2)
+	#define DELTA_TIME_SEC (float(DELTA_TIME)/1000000)
 	
 
 

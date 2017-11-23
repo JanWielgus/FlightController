@@ -9,6 +9,8 @@
 	#include "WProgram.h"
 #endif
 
+#include "config.h"
+
 class FiltrKalmanaClass
 {
 	public:
