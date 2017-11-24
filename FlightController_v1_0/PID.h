@@ -23,8 +23,8 @@ class PIDClass
  public:
 	void setPID_gains(float _kP, float _kI, float _kD);             // ustawianie wzmocnieñ
 	void setPD_gains(float _kP, float _kD);                         // ustawianie wzmocnieñ
-	float getPID(float _current, float _set, double _deltaT);       // zwraca obliczon¹ wartoœæ P+I+D
-	float getPD(float current, float set, double deltaT);           // zwraca obliczon¹ wartoœæ P+D
+	float getPID(float _current, float _set);       // zwraca obliczon¹ wartoœæ P+I+D
+	float getPD(float current, float set);           // zwraca obliczon¹ wartoœæ P+D
 	
  private:
 	
@@ -36,6 +36,8 @@ class PIDClass
 	float kP, kI, kD;    // Wzmocznienia poszczególnych cz³onów kontrolera PID
 	double val_I = 0;    // wartoœæ ca³ki
 	float last_error;    // ostatnia wartoœæ b³êdu (do oblicznania D)
+	double dt_;
+	uint32_t timerPrev = 0;
 };
 
 extern PIDClass levelX_PID;

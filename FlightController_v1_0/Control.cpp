@@ -14,7 +14,7 @@ void ControlClass::init()
 	motors.init();                                    // inicjalizacja silników
 	
 	// Dopóki nie odbierze konfiguracji od pilota
-	while (!kom.recievedFirstConfigPacket)
+	//while (!kom.recievedFirstConfigPacket)
 		kom.odbierz();
 	
 	delay(100);
@@ -59,8 +59,8 @@ void ControlClass::stabilize()
 	if (motor_main_power < 3) motors.armMotors(false);
 	else motors.armMotors(true);
 	
-	float pidX = levelX_PID.getPID(sensors.angle.pitch, 0, sensors.dt_);
-	float pidY = levelY_PID.getPID(sensors.angle.roll, 0, sensors.dt_);
+	float pidX = levelX_PID.getPID(sensors.angle.pitch, 0);
+	float pidY = levelY_PID.getPID(sensors.angle.roll, 0);
 	
 	motors.setOnTL(motor_main_power + pidX - pidY);
 	motors.setOnTR(motor_main_power + pidX + pidY);

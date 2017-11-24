@@ -29,18 +29,20 @@ void PIDClass::setPD_gains(float _kP, float _kD)
 
 
 
-float PIDClass::getPID(float _current, float _set, double _deltaT)
+float PIDClass::getPID(float _current, float _set)
 {
+	dt_ = (double)(micros() - timerPrev) / 1000000;
 	float er_ = _current - _set;
 	// -P-
 	float val_P = er_*kP;
 	// -I-
-	val_I += (er_ * kI) * _deltaT;
+	val_I += (er_ * kI) * dt_;
 	val_I = constrain(val_I, -kom.conf.I_level_limiter, kom.conf.I_level_limiter);
 	// -D-
 	er_ /= D_error_divisor;
-	float val_D = ((er_ - last_error) / _deltaT) * kD;
+	float val_D = ((er_ - last_error) / dt_) * kD;
 	last_error = er_;
+	timerPrev = micros();
 	
 	return val_P + val_I + val_D;
 }
