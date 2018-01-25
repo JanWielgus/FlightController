@@ -91,9 +91,7 @@ void SensorsClass::readAngles()
 		fifoCount -= packetSize;
 		
 		//////////////////////////////////////////////////////////////////////////
-		
-		//mpu.dmpGetQuaternion(&q, &fifoBuffer);
-		
+
 		int16_t qI[4];
 		//if (fifoBuffer == 0) fifoBuffer = mpu.dmpPacketBuffer;
 		qI[0] = ((fifoBuffer[0] << 8) | fifoBuffer[1]);
@@ -109,12 +107,11 @@ void SensorsClass::readAngles()
 		mpu.dmpGetGravity(&gravity, &q);
 		mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
 		
+		angle.pitch = (ypr[1]*(-100))-PITCH_OFFSET;
+		angle.roll  = (ypr[2]*100)-ROLL_OFFSET;
+		angle.yaw   = ypr[3];
 		
 		//////////////////////////////////////////////////////////////////////////
-		
-		angle.pitch = ypr[1];
-		angle.roll  = ypr[2];
-		angle.yaw   = ypr[3];
 	}
 }
 

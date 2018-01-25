@@ -11,11 +11,12 @@ PIDClass yaw_PD;
 
 // =============================  PUBLIC  =============================
 
-void PIDClass::setPID_gains(float _kP, float _kI, float _kD)
+void PIDClass::setPID_gains(float _kP, float _kI, float _kD, uint8_t _aw)
 {
 	kP = _kP;
 	kI = _kI;
 	kD = _kD;
+	antiWindup = _aw;
 }
 
 
@@ -32,12 +33,12 @@ void PIDClass::setPD_gains(float _kP, float _kD)
 float PIDClass::getPID(float _current, float _set)
 {
 	dt_ = (double)(micros() - timerPrev) / 1000000;
-	float er_ = _current - _set;
+	float er_ = _current - _set; // MO¯LIWE ¯E TUTAJ JEST +
 	// -P-
 	float val_P = er_*kP;
 	// -I-
 	val_I += (er_ * kI) * dt_;
-	val_I = constrain(val_I, -kom.conf.I_level_limiter, kom.conf.I_level_limiter);
+	val_I = constrain(val_I, -antiWindup, antiWindup);
 	// -D-
 	er_ /= D_error_divisor;
 	float val_D = ((er_ - last_error) / dt_) * kD;
