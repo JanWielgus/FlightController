@@ -49,12 +49,10 @@
 
 //<<<<<<<<<=====================     SENSORS     =====================>>>>>>>>>
 
-	#define PITCH_OFFSET -0.5   // Offset osi x
-	#define ROLL_OFFSET  -1.0   // Offset osi y
+	#define PITCH_OFFSET -0.25   // Offset osi x
+	#define ROLL_OFFSET  -2.12   // Offset osi y
 	
-	#define GYRO_X_OFFSET -2.1     // Offset ¿yroskopu oœ x
-	#define GYRO_Y_OFFSET 1.5     // Offset ¿yroskopu oœ y
-	#define GYRO_Z_OFFSET 0     // Offset ¿yroskopu oœ z
+	#define INTERRUPT_PIN 2  // use pin 2 on Arduino Uno & most boards
 
 
 //<<<<<<<<<=====================     MOTORS     =====================>>>>>>>>>

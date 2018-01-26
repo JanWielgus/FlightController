@@ -13,7 +13,7 @@ void ControlClass::init()
 	sensors.init();                                   // inicjalizacja wszystkich czujników
 	motors.init();                                    // inicjalizacja silników
 	
-	// Dopóki nie odbierze konfiguracji od pilota
+	// Dopóki nie odbierze parametrów lotu od pilota
 	while (!kom.recievedFirstConfigPacket)
 		kom.odbierz();
 	
@@ -59,12 +59,12 @@ void ControlClass::stabilize()
 	if (motor_main_power < 3) motors.armMotors(false);
 	else motors.armMotors(true);
 	
-	float pidX = levelX_PID.getPID(sensors.angle.pitch, 0, sensors.dt_);
-	float pidY = levelY_PID.getPID(sensors.angle.roll, 0, sensors.dt_);
+	float pidX = levelX_PID.getPID(sensors.angle.pitch, 0);
+	float pidY = levelY_PID.getPID(sensors.angle.roll, 0);
 	
-	motors.setOnTL(motor_main_power + pidX - pidY);
+	//motors.setOnTL(motor_main_power + pidX - pidY);
 	motors.setOnTR(motor_main_power + pidX + pidY);
-	motors.setOnBR(motor_main_power - pidX + pidY);
+	//motors.setOnBR(motor_main_power - pidX + pidY);
 	motors.setOnBL(motor_main_power - pidX - pidY);
 }
 

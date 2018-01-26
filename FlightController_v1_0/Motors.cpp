@@ -13,6 +13,7 @@ void MotorsClass::init()
 	mTR.attach(TRmotorPin); // Top right
 	mBL.attach(BLmotorPin); // Back left
 	mBR.attach(BRmotorPin); // Back right
+	setOnAllMotors(0);      // idle
 }
 
 

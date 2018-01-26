@@ -23,6 +23,9 @@ void loop()
 {
 	copter.updateCommunication();
 	copter.stabilize();
+	//Serial.print(sensors.angle.pitch);
+	//Serial.print("\t");
+	//Serial.println(sensors.angle.roll);
 }
 
 
