@@ -39,7 +39,7 @@ void setup()
 	
 	// Dopóki nie odbierze parametrów lotu od pilota
 	while (!kom.recievedFirstConfigPacket)
-	kom.odbierz();
+		kom.odbierz();
 	
 	delay(100);
 }
@@ -66,13 +66,17 @@ void updateCommunication()
 		kom.odbierz();
 		kom.updateSignal();
 		
-		/*
 		if (kom.isSignal())
 		{
-			kom.zmienna1 = 150;
+			//kom.zmienna1 = 150;
+			if (kom.pilot.throttle < 5) motors.armMotors(false);
+			else motors.armMotors(true);
 		}
-		else kom.zmienna1 = 0;
-		*/
+		else
+		{
+			//kom.zmienna1 = 0;
+			motors.armMotors(false);
+		}
 		
 		//kom.zmiennaTestowa1.value = 1723.5;
 		//kom.wyslij(DRON_RAMKA_TEST_TYPE);
@@ -90,31 +94,26 @@ void stabilize()
 	// MAJA BYC WYSYLANE JUZ PRZELICZONE!!!
 	// THROTTLE ju¿ przeloczane
 	sensors.readAngles();
-	int motor_main_power = kom.pilot.throttle;
-	
-	if (motor_main_power < 3) motors.armMotors(false);
-	else motors.armMotors(true);
 	
 	float pidX = levelX_PID.getPID(sensors.angle.pitch, 0);
 	float pidY = levelY_PID.getPID(sensors.angle.roll, 0);
 	
 	//motors.setOnTL(motor_main_power + pidX - pidY);
-	motors.setOnTR(motor_main_power + pidX + pidY);
+	motors.setOnTR(kom.pilot.throttle + pidX + pidY);
 	//motors.setOnBR(motor_main_power - pidX + pidY);
-	motors.setOnBL(motor_main_power - pidX - pidY);
+	motors.setOnBL(kom.pilot.throttle - pidX - pidY);
 }
 
 
 
-void configureESC()
+void configureESC() // u¿ywane do kalibracji ESC gdy trzeba wszystkie ustawiæ na max/min
 {
 	motors.armMotors(true);
-	int motor_main_power = kom.pilot.throttle;
 	
-	motors.setOnTL(motor_main_power);
-	motors.setOnTR(motor_main_power);
-	motors.setOnBR(motor_main_power);
-	motors.setOnBL(motor_main_power);
+	motors.setOnTL(kom.pilot.throttle);
+	motors.setOnTR(kom.pilot.throttle);
+	motors.setOnBR(kom.pilot.throttle);
+	motors.setOnBL(kom.pilot.throttle);
 }
 
 
