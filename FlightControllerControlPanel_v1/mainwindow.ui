@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>40</y>
       <width>831</width>
       <height>581</height>
      </rect>
@@ -303,7 +303,7 @@
        </property>
       </widget>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>590</x>
@@ -536,7 +536,7 @@
           <property name="title">
            <string>Write parameters</string>
           </property>
-          <widget class="QWidget" name="">
+          <widget class="QWidget" name="layoutWidget">
            <property name="geometry">
             <rect>
              <x>12</x>
@@ -575,7 +575,178 @@
      <attribute name="title">
       <string>Settings</string>
      </attribute>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>50</y>
+        <width>391</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Connection with ground station</string>
+      </property>
+      <widget class="QComboBox" name="listOfDevicesGS_comboBox">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>25</y>
+         <width>201</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_26">
+       <property name="geometry">
+        <rect>
+         <x>8</x>
+         <y>28</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>List of devices:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="searchGS_pushButton">
+       <property name="geometry">
+        <rect>
+         <x>104</x>
+         <y>56</y>
+         <width>93</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Search</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="connectGS_pushButton">
+       <property name="geometry">
+        <rect>
+         <x>6</x>
+         <y>56</y>
+         <width>93</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Connect</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="gs_arduino_state_label">
+       <property name="geometry">
+        <rect>
+         <x>309</x>
+         <y>28</y>
+         <width>61</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Not found</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="endConnectGS_pushButton">
+       <property name="geometry">
+        <rect>
+         <x>201</x>
+         <y>56</y>
+         <width>101</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>End connection</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="layoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>90</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_27">
+          <property name="text">
+           <string>State:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="connectionStateGS_label">
+          <property name="text">
+           <string>Not connected</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget_3">
+       <property name="geometry">
+        <rect>
+         <x>167</x>
+         <y>90</y>
+         <width>143</width>
+         <height>18</height>
+        </rect>
+       </property>
+       <layout class="QFormLayout" name="formLayout_3">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_29">
+          <property name="text">
+           <string>Baud rate:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_30">
+          <property name="text">
+           <string>19200 baud</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </widget>
+   </widget>
+   <widget class="QLabel" name="GS_ConnectionStatus_label">
+    <property name="geometry">
+     <rect>
+      <x>143</x>
+      <y>2</y>
+      <width>126</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>No connection</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_34">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>2</y>
+      <width>126</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ground station status:</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
