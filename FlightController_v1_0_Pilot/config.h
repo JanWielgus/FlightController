@@ -19,7 +19,7 @@
 	//      ===  TYLKO TABLICE O WYMIARACH TAKICH JAK RAMKA, NIE WIÊKSZE !!!  ===
 	
 	#define BAUD_RATE 9600
-	#define MAX_SEND_SIZE 25  // Wielkosæ najwiêkszej ramki
+	#define MAX_SEND_SIZE 50  // Wielkosæ najwiêkszej ramki
 
 	// Szablon: nadawca_RAMKA_nazwa_SIZE/TYPE
 	

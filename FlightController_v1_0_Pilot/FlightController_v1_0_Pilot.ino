@@ -5,6 +5,7 @@
 //
 
 #include "Komunikacja.h"
+#include "ControlPanelApp.h"
 
 SoftwareSerial software_serial(tx_pin, rx_pin); // HC-12 TX Pin, HC-12 RX Pin
 
@@ -32,6 +33,7 @@ void loop()
 {
 	//kom.odbierz();
 	//Serial.println(kom.zmiennaTestowa.value);
+	cpa.odbierz();
 	
 	if (kom.pong.b0 != ostatni_pong)
 	{
@@ -50,10 +52,11 @@ void loop()
 	kom.pilot.throttle = constrain(kom.pilot.throttle, 0, 1000);
 	
 	kom.wyslij(PILOT_RAMKA_TEST_TYPE);
+	cpa.wyslij(cpa.KOMUN_RAMKA_ARDU_LIVE_TYPE);
 
 	if (stan_sygnalu == true) digitalWrite(LED_BUILTIN, HIGH);
 	else digitalWrite(LED_BUILTIN, LOW);
 	
-	delay(50);
+	delay(48);
 }
 

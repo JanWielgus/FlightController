@@ -65,8 +65,6 @@
   <avrgcc.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../../../FlightController_v1_0_Pilot</Value>
-      <Value>C:/Users/Janek/Documents/Arduino/libraries/PacketSerial-master/src</Value>
-      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries</Value>
       <Value>C:/Users/Janek/Documents/Arduino/libraries</Value>
@@ -101,8 +99,6 @@
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../../../FlightController_v1_0_Pilot</Value>
-      <Value>C:/Users/Janek/Documents/Arduino/libraries/PacketSerial-master/src</Value>
-      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries</Value>
       <Value>C:/Users/Janek/Documents/Arduino/libraries</Value>
@@ -150,8 +146,6 @@
   <avrgcc.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../../../FlightController_v1_0_Pilot</Value>
-      <Value>C:/Users/Janek/Documents/Arduino/libraries/PacketSerial-master/src</Value>
-      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries</Value>
       <Value>C:/Users/Janek/Documents/Arduino/libraries</Value>
@@ -186,8 +180,6 @@
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../../../FlightController_v1_0_Pilot</Value>
-      <Value>C:/Users/Janek/Documents/Arduino/libraries/PacketSerial-master/src</Value>
-      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries</Value>
       <Value>C:/Users/Janek/Documents/Arduino/libraries</Value>
@@ -220,6 +212,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ControlPanelApp.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ControlPanelApp.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Komunikacja.cpp">
