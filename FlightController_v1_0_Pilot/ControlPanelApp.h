@@ -26,10 +26,12 @@ class ControlPanelAppClass
 	bool sprawdzSumeKontr(const uint8_t* buffer, size_t PacketSize);
 	uint8_t liczSumeKontr(const uint8_t* buffer, size_t PacketSize);
 	
+	uint8_t throttlePCapp;
+	
 	
  public:
 	const uint8_t USB_SERIAL_PORT = 0; // Dla Serial
-	const uint8_t USB_BAUD_RATE = 115200;
+	const uint8_t USB_BAUD_RATE = 9600;
 
 	// --- ramki ---
 	// wysylane
@@ -62,14 +64,14 @@ extern ControlPanelAppClass cpa;
 		Typ ramki - live view (bajt 0: 0x00):
 		0. XOR wszystkich nastepnych bajtow (suma kontrolna) (unsigned 8b)
 		1. Typ ramki - 0x00 live view (unsigned 8b)
-		2. Throttle stick (unsigned 16b)
-		3. cd^
-		4. Yaw stick (unsigned 8b)
-		5. Pitch stick (unsigned 8b)
-		6. Roll stick (unsigned 8b)
-		7. Drone Pitch (unsigned 8b)
-		8. Drone Roll (unsigned 8b)
-		9. Drone Yaw (unsigned 8b)
+		2. --
+		3. Throttle stick (unsigned 8b)
+		4. Yaw stick (signed 8b)
+		5. Pitch stick (signed 8b)
+		6. Roll stick (signed 8b)
+		7. Drone Pitch (signed 8b)
+		8. Drone Roll (signed 8b)
+		9. Drone Yaw (signed 8b)
 		10. Booleans (unsigned 8b):
 			bit 7 - 
 

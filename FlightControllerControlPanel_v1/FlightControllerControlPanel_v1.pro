@@ -33,7 +33,8 @@ HEADERS += \
         mainwindow.h \
     COBS.h \
     komunikacja.h \
-    PacketSerial.h
+    PacketSerial.h \
+    typybitowe.h
 
 FORMS += \
         mainwindow.ui

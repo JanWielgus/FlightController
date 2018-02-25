@@ -2,7 +2,7 @@
 
 PacketSerial::PacketSerial()
 {
-    _recieveBuffer = new uint8_t[BufferSize];
+    //_recieveBuffer = new uint8_t[BufferSize];
 }
 
 

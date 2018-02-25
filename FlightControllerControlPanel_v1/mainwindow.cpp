@@ -42,6 +42,11 @@ void MainWindow::readSerial()
     {
         komun.odbierz();
         qDebug() << "Odebrano jakies dane\n";
+
+        ui->throttle_slider->setValue(komun.pilot.throttle);
+        ui->pitch_slider->setValue(komun.pilot.tilt_TB);
+        ui->roll_slider->setValue(komun.pilot.tilt_LR);
+        ui->yaw_slider->setValue(komun.pilot.rotate);
     }
 }
 
@@ -55,6 +60,26 @@ void MainWindow::timerPIDaction()
         komun.wyslij(komun.KOMUN_RAMKA_PC_PARAMETERS_TYPE);
 
         needToSendPID = false;
+        ui->paramsSendingState_label->setText(sentText);
+    }
+    else if (ui->paramsSendingState_label->text() == sentText)
+        ui->paramsSendingState_label->setText(noChangesText);
+}
+
+
+void MainWindow::on_precisionTuning_checkBox_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->P_PID_spinBox->setSingleStep(0.01);
+        ui->I_PID_spinBox->setSingleStep(0.01);
+        ui->D_PID_spinBox->setSingleStep(0.01);
+    }
+    else
+    {
+        ui->P_PID_spinBox->setSingleStep(0.1);
+        ui->I_PID_spinBox->setSingleStep(0.1);
+        ui->D_PID_spinBox->setSingleStep(0.1);
     }
 }
 
@@ -63,24 +88,6 @@ void MainWindow::on_PID_tuning_checkBox_clicked(bool checked)
 {
     ui->PID_tuning_box->setEnabled(checked);
     if (!ui->writeParamsAuto_checkBox->isChecked()) ui->writeParams_pushButton->setEnabled(true);
-}
-
-void MainWindow::on_checkBox_clicked(bool checked)
-{
-    if (checked)
-    {
-        ui->P_PID_spinBox->setSingleStep(0.01);
-        ui->I_PID_spinBox->setSingleStep(0.01);
-        ui->D_PID_spinBox->setSingleStep(0.01);
-        ui->Imax_PID_spinBox->setSingleStep(0.1);
-    }
-    else
-    {
-        ui->P_PID_spinBox->setSingleStep(0.1);
-        ui->I_PID_spinBox->setSingleStep(0.1);
-        ui->D_PID_spinBox->setSingleStep(0.1);
-        ui->Imax_PID_spinBox->setSingleStep(1.0);
-    }
 }
 
 void MainWindow::on_writeParamsAuto_checkBox_clicked(bool checked)
@@ -127,7 +134,7 @@ void MainWindow::on_connectGS_pushButton_clicked()
             qDebug() << "Found the arduino port...\n";
             komun.arduino->setPortName(port_name);
             komun.arduino->open(QSerialPort::ReadWrite);
-            komun.arduino->setBaudRate(QSerialPort::Baud9600);
+            komun.arduino->setBaudRate(QSerialPort::Baud9600); // BAUD RATE !!!!
             komun.arduino->setDataBits(QSerialPort::Data8);
             komun.arduino->setFlowControl(QSerialPort::NoFlowControl);
             komun.arduino->setParity(QSerialPort::NoParity);
@@ -167,25 +174,38 @@ void MainWindow::on_endConnectGS_pushButton_clicked()
 void MainWindow::on_writeParams_pushButton_clicked()
 {
     // Wyślij parametry do pilota
-    komun.wyslij(komun.KOMUN_RAMKA_PC_PARAMETERS_TYPE);
+    if (needToSendPID && ui->connectionStateGS_label->text() == connectedText)
+    {
+        komun.wyslij(komun.KOMUN_RAMKA_PC_PARAMETERS_TYPE);
+        ui->paramsSendingState_label->setText(sentText);
+        needToSendPID = false;
+    }
 }
 
 void MainWindow::on_P_PID_spinBox_valueChanged(double arg1)
 {
     needToSendPID = true;
+    ui->paramsSendingState_label->setText(needToSendText);
+    komun.conf.kP_level.value = (float)ui->P_PID_spinBox->value();
 }
 
 void MainWindow::on_I_PID_spinBox_valueChanged(double arg1)
 {
     needToSendPID = true;
+    ui->paramsSendingState_label->setText(needToSendText);
+    komun.conf.kI_level.value = (float)ui->I_PID_spinBox->value();
 }
 
 void MainWindow::on_D_PID_spinBox_valueChanged(double arg1)
 {
     needToSendPID = true;
+    ui->paramsSendingState_label->setText(needToSendText);
+    komun.conf.kD_level.value = (float)ui->D_PID_spinBox->value();
 }
 
-void MainWindow::on_Imax_PID_spinBox_valueChanged(double arg1)
+void MainWindow::on_Imax_PID_spinBox_valueChanged(int arg1)
 {
     needToSendPID = true;
+    ui->paramsSendingState_label->setText(needToSendText);
+    komun.conf.I_level_limiter = (uint8_t)ui->Imax_PID_spinBox->value();
 }

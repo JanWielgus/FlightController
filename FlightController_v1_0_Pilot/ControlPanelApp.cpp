@@ -68,8 +68,8 @@ void ControlPanelAppClass::wyslij(uint8_t typRamki)
 	
 	if (typRamki == KOMUN_RAMKA_ARDU_LIVE_TYPE)
 	{
-		buforT[2] = lowByte(kom.pilot.throttle);
-		buforT[3] = highByte(kom.pilot.throttle);
+		//buforT[2] = --;
+		buforT[3] = throttlePCapp;
 		buforT[4] = kom.pilot.rotate;
 		buforT[5] = kom.pilot.tilt_TB;
 		buforT[6] = kom.pilot.tilt_LR;

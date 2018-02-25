@@ -14,12 +14,13 @@ public:
     QSerialPort *arduinoSerial;
     typedef void (*PacketHandlerFunction)(const uint8_t* buffer, size_t size);
 
-    const unsigned int MAX_SEND_SIZE = 30;
+    const unsigned int MAX_SEND_SIZE = 60;
 
     size_t BufferSize = 256;
     uint8_t PacketMarker = 0;
 
-    uint8_t *_recieveBuffer;
+    //uint8_t *_recieveBuffer;
+    uint8_t _recieveBuffer[256];
     size_t _recieveBufferIndex;
 
     PacketHandlerFunction _onPacketFunction;

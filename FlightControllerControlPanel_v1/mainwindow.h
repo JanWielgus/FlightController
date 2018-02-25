@@ -21,8 +21,6 @@ public:
 private slots:
     void on_PID_tuning_checkBox_clicked(bool checked);
 
-    void on_checkBox_clicked(bool checked);
-
     void on_writeParamsAuto_checkBox_clicked(bool checked);
 
     void readSerial();
@@ -42,7 +40,9 @@ private slots:
 
     void on_D_PID_spinBox_valueChanged(double arg1);
 
-    void on_Imax_PID_spinBox_valueChanged(double arg1);
+    void on_precisionTuning_checkBox_clicked(bool checked);
+
+    void on_Imax_PID_spinBox_valueChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;
@@ -57,6 +57,11 @@ private:
     const QString notFoundText = "Not found";
     const QString foundText = "Found";
     const QString noConnectionText = "No connection";
+
+    // PID sending
+    const QString needToSendText = "Need to send";
+    const QString noChangesText = "No changes";
+    const QString sentText = "Sent";
 };
 
 #endif // MAINWINDOW_H
