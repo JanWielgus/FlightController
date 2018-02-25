@@ -22,6 +22,7 @@ public:
     //uint8_t *_recieveBuffer;
     uint8_t _recieveBuffer[256];
     size_t _recieveBufferIndex;
+    uint8_t _decodeBuffer[256];
 
     PacketHandlerFunction _onPacketFunction;
 

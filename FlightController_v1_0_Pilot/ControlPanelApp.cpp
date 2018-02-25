@@ -16,7 +16,7 @@ void _protOdbierzUSB(const uint8_t* buffer, size_t size)
 void ControlPanelAppClass::init()
 {
 	pSerialUSB.setPacketHandler(_protOdbierzUSB);
-	pSerialUSB.begin(USB_BAUD_RATE, USB_SERIAL_PORT);
+	pSerialUSB.begin(9600);
 }
 
 

@@ -33,7 +33,7 @@ void PacketSerial::update()
             {
                 if (_onPacketFunction)
                 {
-                    uint8_t _decodeBuffer[_recieveBufferIndex];
+                    //uint8_t _decodeBuffer[_recieveBufferIndex];
 
                     size_t numDecoded = COBS::decode(_recieveBuffer,
                                                      _recieveBufferIndex,
