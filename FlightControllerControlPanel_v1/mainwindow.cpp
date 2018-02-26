@@ -186,26 +186,26 @@ void MainWindow::on_P_PID_spinBox_valueChanged(double arg1)
 {
     needToSendPID = true;
     ui->paramsSendingState_label->setText(needToSendText);
-    komun.conf.kP_level.value = (float)ui->P_PID_spinBox->value();
+    komun.conf.kP_level.value = (float)arg1;
 }
 
 void MainWindow::on_I_PID_spinBox_valueChanged(double arg1)
 {
     needToSendPID = true;
     ui->paramsSendingState_label->setText(needToSendText);
-    komun.conf.kI_level.value = (float)ui->I_PID_spinBox->value();
+    komun.conf.kI_level.value = (float)arg1;
 }
 
 void MainWindow::on_D_PID_spinBox_valueChanged(double arg1)
 {
     needToSendPID = true;
     ui->paramsSendingState_label->setText(needToSendText);
-    komun.conf.kD_level.value = (float)ui->D_PID_spinBox->value();
+    komun.conf.kD_level.value = (float)arg1;
 }
 
 void MainWindow::on_Imax_PID_spinBox_valueChanged(int arg1)
 {
     needToSendPID = true;
     ui->paramsSendingState_label->setText(needToSendText);
-    komun.conf.I_level_limiter = (uint8_t)ui->Imax_PID_spinBox->value();
+    komun.conf.I_level_limiter = (uint8_t)arg1;
 }

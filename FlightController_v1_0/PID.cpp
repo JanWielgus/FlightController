@@ -1,58 +1,88 @@
-// Author: Jan Wielgus
-// Date: 06.11.2017
-// 
+// -*- tab-width: 4; Mode: C++; c-basic-offset: 4; indent-tabs-mode: t -*-
+
+/// @file	PID.cpp
+/// @brief	Generic PID algorithm
+
+#include <math.h>
+#include <Arduino.h>
 
 #include "PID.h"
 
-PIDClass levelX_PID;
-PIDClass levelY_PID;
-PIDClass yaw_PD;
-
-
-// =============================  PUBLIC  =============================
-
-void PIDClass::setPID_gains(float _kP, float _kI, float _kD, uint8_t _aw)
+int32_t
+PID::get_pid(int32_t error, float scaler)
 {
-	kP = _kP;
-	kI = _kI;
-	kD = _kD;
-	antiWindup = _aw;
+    uint32_t tnow = millis();
+    uint32_t dt = tnow - _last_t;
+    float output            = 0;
+    float delta_time;
+
+    if (_last_t == 0 || dt > 1000) {
+        dt = 0;
+
+		// if this PID hasn't been used for a full second then zero
+		// the intergator term. This prevents I buildup from a
+		// previous fight mode from causing a massive return before
+		// the integrator gets a chance to correct itself
+		reset_I();
+    }
+    _last_t = tnow;
+
+    delta_time = (float)dt / 1000.0;
+
+    // Compute proportional component
+    output += error * _kp;
+
+    // Compute derivative component if time has elapsed
+    if ((fabs(_kd) > 0) && (dt > 0)) {
+        float derivative;
+
+		if (isnan(_last_derivative)) {
+			// we've just done a reset, suppress the first derivative
+			// term as we don't want a sudden change in input to cause
+			// a large D output change			
+			derivative = 0;
+			_last_derivative = 0;
+		} else {
+			derivative = (error - _last_error) / delta_time;
+		}
+
+        // discrete low pass filter, cuts out the
+        // high frequency noise that can drive the controller crazy
+        float RC = 1/(2*M_PI*_fCut);
+        derivative = _last_derivative +
+                     (delta_time / (RC + delta_time)) * (derivative - _last_derivative);
+
+        // update state
+        _last_error             = error;
+        _last_derivative    = derivative;
+
+        // add in derivative component
+        output                          += _kd * derivative;
+    }
+
+    // scale the P and D components
+    output *= scaler;
+
+    // Compute integral component if time has elapsed
+    if ((fabs(_ki) > 0) && (dt > 0)) {
+        _integrator             += (error * _ki) * scaler * delta_time;
+        if (_integrator < -_imax) {
+            _integrator = -_imax;
+        } else if (_integrator > _imax) {
+            _integrator = _imax;
+        }
+        output                          += _integrator;
+    }
+
+    return output;
 }
 
-
-
-void PIDClass::setPD_gains(float _kP, float _kD)
+void
+PID::reset_I()
 {
-	kP = _kP;
-	kI = 0.0;
-	kD = _kD;
+    _integrator = 0;
+	// we use NAN (Not A Number) to indicate that the last 
+	// derivative value is not valid
+    _last_derivative = NAN;
 }
-
-
-
-float PIDClass::getPID(float _current, float _set)
-{
-	dt_ = (double)(micros() - timerPrev) / 1000000;
-	float er_ = _current - _set; // MO¯LIWE ¯E TUTAJ JEST +
-	// -P-
-	float val_P = er_*kP;
-	// -I-
-	val_I += (er_ * kI) * dt_;
-	val_I = constrain(val_I, -antiWindup, antiWindup);
-	// -D-
-	er_ /= D_error_divisor;
-	float val_D = ((er_ - last_error) / dt_) * kD;
-	last_error = er_;
-	timerPrev = micros();
-	
-	return val_P + val_I + val_D;
-}
-
-
-
-
-// =============================  PRIVTE  =============================
-
-
-
 

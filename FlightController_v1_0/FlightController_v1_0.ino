@@ -26,6 +26,12 @@ uint32_t last_loop = 0; // czas ostatniego wykonania funkcji komunikacji
 void updateCommunication();   // aktualizacja komunikacji w odpowiednim czasie
 void stabilize();             // stabilizacja drona i utrzymywanie kierunku
 void configureESC();          // Tryb konfiguracji ESC
+void updatePIDParams();       // Aktualizacja parametrów PID odebranymi danymi
+
+
+PID levelX_PID;
+PID levelY_PID;
+// pid do osi Z (yaw)
 
 
 
@@ -38,8 +44,10 @@ void setup()
 	motors.init();                                    // inicjalizacja silników
 	
 	// Dopóki nie odbierze parametrów lotu od pilota
-	while (!kom.recievedFirstConfigPacket)
+	while (!kom.recievedConfigPacket)
 		kom.odbierz();
+
+	updatePIDParams();
 	
 	delay(100);
 }
@@ -49,9 +57,11 @@ void loop()
 {
 	updateCommunication();
 	stabilize();
-	//Serial.print(sensors.angle.pitch);
-	//Serial.print("\t");
-	//Serial.println(sensors.angle.roll);
+	/*
+	sensors.readAngles();
+	Serial.print(sensors.angle.pitch);
+	Serial.print("\t");
+	Serial.println(sensors.angle.roll);*/
 }
 
 
@@ -65,6 +75,9 @@ void updateCommunication()
 	{
 		kom.odbierz();
 		kom.updateSignal();
+		
+		// Jeœli odebrano ramkê z parametrami -> zaktualizuj parametry
+		if (kom.recievedConfigPacket) updatePIDParams();
 		
 		if (kom.isSignal())
 		{
@@ -95,8 +108,8 @@ void stabilize()
 	// THROTTLE ju¿ przeloczane
 	sensors.readAngles();
 	
-	float pidX = levelX_PID.getPID(sensors.angle.pitch, 0);
-	float pidY = levelY_PID.getPID(sensors.angle.roll, 0);
+	int32_t pidX = levelX_PID.get_pid((int32_t)sensors.angle.pitch, 1);
+	int32_t pidY = levelY_PID.get_pid((int32_t)sensors.angle.roll, 1);
 	
 	//motors.setOnTL(motor_main_power + pidX - pidY);
 	motors.setOnTR(kom.pilot.throttle + pidX + pidY);
@@ -114,6 +127,21 @@ void configureESC() // u¿ywane do kalibracji ESC gdy trzeba wszystkie ustawiæ na
 	motors.setOnTR(kom.pilot.throttle);
 	motors.setOnBR(kom.pilot.throttle);
 	motors.setOnBL(kom.pilot.throttle);
+}
+
+
+
+void updatePIDParams()
+{
+	levelX_PID.kP(kom.conf.kP_level.value);
+	levelX_PID.kI(kom.conf.kI_level.value);
+	levelX_PID.kD(kom.conf.kD_level.value);
+	levelX_PID.imax(kom.conf.I_level_limiter);
+	levelY_PID.kP(kom.conf.kP_level.value);
+	levelY_PID.kI(kom.conf.kI_level.value);
+	levelY_PID.kD(kom.conf.kD_level.value);
+	levelY_PID.imax(kom.conf.I_level_limiter);
+	kom.recievedConfigPacket = false; // ¿eby po¿niej wykorzystaæ jako zmienn¹ oznajmiaj¹c¹, ¿e przysz³a ramka z parametrami
 }
 
 

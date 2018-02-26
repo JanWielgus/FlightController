@@ -49,8 +49,8 @@
 
 //<<<<<<<<<=====================     SENSORS     =====================>>>>>>>>>
 
-	#define PITCH_OFFSET -0.25   // Offset osi x
-	#define ROLL_OFFSET  -2.12   // Offset osi y
+	#define PITCH_OFFSET 0   // Offset osi x
+	#define ROLL_OFFSET  0   // Offset osi y
 	
 	#define INTERRUPT_PIN 2  // use pin 2 on Arduino Uno & most boards
 

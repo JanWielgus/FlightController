@@ -107,8 +107,8 @@ void SensorsClass::readAngles()
 		mpu.dmpGetGravity(&gravity, &q);
 		mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
 		
-		angle.pitch = (ypr[1]*(-100))-PITCH_OFFSET;
-		angle.roll  = (ypr[2]*100)-ROLL_OFFSET;
+		angle.pitch = (ypr[1]*(-80))-PITCH_OFFSET;
+		angle.roll  = (ypr[2]*80)-ROLL_OFFSET;
 		angle.yaw   = ypr[3];
 		
 		//////////////////////////////////////////////////////////////////////////

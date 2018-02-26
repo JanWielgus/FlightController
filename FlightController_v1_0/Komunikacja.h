@@ -63,7 +63,7 @@ class KomunikacjaClass
 		floatByte kP_yaw;            // wzmocnienie P PD'u od osi z
 		floatByte kD_yaw;            // wzmocnienie D PD'u od osi z
 	}conf;
-	bool recievedFirstConfigPacket = false;  // Czy odebrano pakiet z konfiguracj¹ od pilota
+	bool recievedConfigPacket = false;  // Czy odebrano pakiet z konfiguracj¹ od pilota
 	
  private:
 	boolean ostatni_pong = false; // stan ostatniego odebranego pongu
