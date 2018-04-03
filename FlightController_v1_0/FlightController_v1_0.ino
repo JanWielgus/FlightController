@@ -111,9 +111,9 @@ void stabilize()
 	int32_t pidX = levelX_PID.get_pid((int32_t)sensors.angle.pitch, 1);
 	int32_t pidY = levelY_PID.get_pid((int32_t)sensors.angle.roll, 1);
 	
-	//motors.setOnTL(motor_main_power + pidX - pidY);
+	motors.setOnTL(kom.pilot.throttle + pidX - pidY);
 	motors.setOnTR(kom.pilot.throttle + pidX + pidY);
-	//motors.setOnBR(motor_main_power - pidX + pidY);
+	motors.setOnBR(kom.pilot.throttle - pidX + pidY);
 	motors.setOnBL(kom.pilot.throttle - pidX - pidY);
 }
 
