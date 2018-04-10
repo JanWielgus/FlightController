@@ -15,7 +15,10 @@ void dmpDataReady()
 void SensorsClass::init()
 {
 	Wire.begin();
-	Wire.setClock(400000);
+	Wire.setClock(400000L);
+	
+	//////////////////////////////////////////////////////////////////////////
+	// MPU6050
 	
 	mpu.initialize();
 	pinMode(INTERRUPT_PIN, INPUT);
@@ -45,6 +48,31 @@ void SensorsClass::init()
 		// 1 = initial memory load failed
 		// 2 = DMP configuration updates failed
 		// (if it's going to break, usually the code will be 1)
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	// HMC5883L
+	
+	uint8_t tempCount=0;
+	while (!compass.begin())
+	{
+		if (tempCount > 1) break; // przerwij jezeli nie uda sie wystartowac przez 2 powtorzenia
+		delay(500);
+		tempCount++;
+	}
+	
+	if (tempCount <= 1) // jezeli uruchomil sie
+	{
+		// Set measurement range
+		compass.setRange(HMC5883L_RANGE_1_3GA);
+		// Set measurement mode
+		compass.setMeasurementMode(HMC5883L_CONTINOUS);
+		// Set data rate
+		compass.setDataRate(HMC5883L_DATARATE_30HZ);
+		// Set number of samples averaged
+		compass.setSamples(HMC5883L_SAMPLES_8);
+		// Set calibration offset. See HMC5883L_calibration.ino
+		compass.setOffset(MAG_X_OFFSET, MAG_Y_OFFSET);
 	}
 }
 
@@ -113,6 +141,86 @@ void SensorsClass::readAngles()
 		
 		//////////////////////////////////////////////////////////////////////////
 	}
+}
+
+
+void SensorsClass::readCompass()
+{
+	// read vectors
+	magReading = compass.readNormalize();
+	
+	accScaled.XAxis = angle.pitch*0.01;
+	accScaled.YAxis = angle.roll*0.01;
+	
+	// Jezeli za bardzo przechylony to nie kompensuj przechylenia (powoduje to NAN albo INF)
+	if (angle.pitch<MAG_COMP_ANGLE && angle.pitch>-MAG_COMP_ANGLE &&
+		angle.roll<MAG_COMP_ANGLE && angle.roll>-MAG_COMP_ANGLE)
+		headnigComp = tiltCompensate(magReading, accScaled);
+	else
+		headnigComp = noTiltCompensate(magReading);
+	
+	headnigComp = correctAngle(headnigComp);
+	headnigComp = headnigComp * RAD_TO_DEG;
+	
+	timeNow = millis();
+	timeStep = float(timeNow-lastTime)*0.001;
+	lastTime = timeNow;
+	
+	gyroYaw = -mpu.getRotationZ()-GYRO_Z_OFFSET;
+	gyroYaw *= dpsPerDigit;
+	
+	headnigGyroMagn += gyroYaw * timeStep;
+	
+	// 0* bug fix
+	if (abs(headnigComp-headnigGyroMagn) > 100) // jezeli roznica katow jest za duza
+	{
+		if (headnigComp > 180) headnigComp-=360;
+		else headnigComp+=360;
+	}
+	
+	// complementary filter
+	headnigGyroMagn = (0.98 * headnigGyroMagn) + (0.02 * headnigComp);
+	
+	// angle correction (0-360)
+	if (headnigGyroMagn >= 360) headnigGyroMagn -= 360;
+	else if (headnigGyroMagn < 0) headnigGyroMagn += 360;
+}
+
+
+float SensorsClass::tiltCompensate(Vector mag, Vector normAccel)
+{
+	float acP, acR; // acc pitch & roll
+	acR = asin(normAccel.YAxis);
+	acP = asin(-normAccel.XAxis);
+	
+	// Some of these are used twice, so rather than computing them twice in the algorithem we precompute them before hand.
+	float cosRoll = cos(acR);
+	float sinRoll = sin(acR);
+	float cosPitch = cos(acP);
+	float sinPitch = sin(acP);
+	
+	// Tilt compensation
+	float Xh = mag.XAxis * cosPitch + mag.ZAxis * sinPitch;
+	float Yh = mag.XAxis * sinRoll * sinPitch + mag.YAxis * cosRoll - mag.ZAxis * sinRoll * cosPitch;
+	
+	float heading = atan2(Yh, Xh);
+	return heading;
+}
+
+
+float SensorsClass::noTiltCompensate(Vector mag)
+{
+	float heading = atan2(mag.YAxis, mag.XAxis);
+	return heading;
+}
+
+
+float SensorsClass::correctAngle(float heading)
+{
+	if (heading < 0) { heading += 2 * PI; }
+	if (heading > 2 * PI) { heading -= 2 * PI; }
+
+	return heading;
 }
 
 

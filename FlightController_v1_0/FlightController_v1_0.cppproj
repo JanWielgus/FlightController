@@ -839,6 +839,18 @@ ProjectDir=C:\Users\Janek\Documents\GitHub\FlightController\FlightController_v1_
     <Compile Include="MPU6050.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="myHMC5883L.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="myHMC5883L.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="myMPU6050.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="myMPU6050.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="PID.cpp">
       <SubType>compile</SubType>
     </Compile>

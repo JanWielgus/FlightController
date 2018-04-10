@@ -12,9 +12,9 @@
 #endif
 
 #include <I2Cdev.h>
-//#include <MPU6050_6Axis_MotionApps20.h>
-#include "C:\Users\Janek\Documents\GitHub\FlightController\FlightController_v1_0\MPU6050.h"
 #include <Wire.h>
+#include "myMPU6050.h"
+#include "myHMC5883L.h"
 
 //#include <MS5611.h>
 #include "config.h"
@@ -23,23 +23,40 @@
 class SensorsClass
 {
  public:
-	MPU6050 mpu;
+	MyMPU6050Class mpu;
+	HMC5883L compass;
+	
 // === FUNKCJE ===
  public:
 	void init();
 	void readAngles(); // roll, pitch, yaw
+	void readCompass();
+	
+	float tiltCompensate(Vector mag, Vector normAccel);
+	float noTiltCompensate(Vector mag);
+	float correctAngle(float heading);
 	
 // === ZMIENNE ===
  public:
-	//double pitch = 0;
-	//double roll = 0;
-	//float  yaw = 0;
 	struct ypr_angles
 	{
 		double pitch = 0;
 		double roll = 0;
 		float  yaw = 0;
 		}angle;
+	
+	float headnigComp; // compensated heading / compass heading
+	Vector magReading; // xyz kompasu
+	Vector accScaled; // xyz acc (tylko dla obliczania kompasu)
+	
+	// Gyro variables
+	uint32_t timeNow=0;
+	uint32_t lastTime;
+	float timeStep;
+	float gyroYaw;
+	float headnigGyroMagn; // gyro + magn headnig
+	//float dpsPerDigit = .007633f; // dla skali 250DPS
+	float dpsPerDigit = .060975f; // dla skali 2000DPS (niby ustawione 250 ale dziala dla 2000)
 	
 	volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
 	

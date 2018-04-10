@@ -107,6 +107,7 @@ void stabilize()
 	// MAJA BYC WYSYLANE JUZ PRZELICZONE!!!
 	// THROTTLE ju¿ przeloczane
 	sensors.readAngles();
+	sensors.readCompass();
 	
 	int32_t pidX = levelX_PID.get_pid((int32_t)sensors.angle.pitch, 1);
 	int32_t pidY = levelY_PID.get_pid((int32_t)sensors.angle.roll, 1);
