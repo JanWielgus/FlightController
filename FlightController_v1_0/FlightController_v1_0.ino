@@ -59,11 +59,16 @@ void loop()
 {
 	updateCommunication();
 	stabilize();
+	
 	/*
 	sensors.readAngles();
+	sensors.readCompass();
 	Serial.print(sensors.angle.pitch);
 	Serial.print("\t");
-	Serial.println(sensors.angle.roll);*/
+	Serial.print(sensors.angle.roll);
+	Serial.print("\t");
+	Serial.println(sensors.headnigGyroMagn);
+	*/
 }
 
 

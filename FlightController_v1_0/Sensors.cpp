@@ -26,10 +26,13 @@ void SensorsClass::init()
 	devStatus = mpu.dmpInitialize();
 	
 	// supply your own gyro offsets here, scaled for min sensitivity
-	mpu.setXGyroOffset(220);
-	mpu.setYGyroOffset(76);
-	mpu.setZGyroOffset(-85);
-	mpu.setZAccelOffset(1788); // 1688 factory default for my test chip
+	mpu.setXAccelOffset(1127);
+	mpu.setYAccelOffset(1297);
+	mpu.setZAccelOffset(1196);
+
+	mpu.setXGyroOffset(78);
+	mpu.setYGyroOffset(-47);
+	mpu.setZGyroOffset(3);
 	
 	if (devStatus == 0)
 	{
@@ -135,8 +138,8 @@ void SensorsClass::readAngles()
 		mpu.dmpGetGravity(&gravity, &q);
 		mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
 		
-		angle.pitch = (ypr[1]*(-80))-PITCH_OFFSET;
-		angle.roll  = (ypr[2]*80)-ROLL_OFFSET;
+		angle.pitch = (ypr[1]*(-60))-PITCH_OFFSET;
+		angle.roll  = (ypr[2]*60)-ROLL_OFFSET;
 		angle.yaw   = ypr[3];
 		
 		//////////////////////////////////////////////////////////////////////////
