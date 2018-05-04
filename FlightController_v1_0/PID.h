@@ -41,7 +41,7 @@ public:
     ///
     /// @returns		The updated control output.
     ///
-    int32_t        get_pid(int32_t error);
+    int32_t        get_pid(float error);
 
     /// Reset the PID integrator
     ///

@@ -19,7 +19,7 @@
 
 uint32_t last_loop = 0; // czas ostatniego wykonania funkcji komunikacji
 
-int32_t headingToHold = 0; // kat do utrzymania przez drona
+float headingToHold = 0; // kat do utrzymania przez drona
 
 
 
@@ -117,9 +117,9 @@ inline void stabilize()
 	
 	// headingToHold += odebrany obrot; // do zrobienia !!!
 	
-	int32_t pidX = levelX_PID.get_pid((int32_t)sensors.angle.pitch);
-	int32_t pidY = levelY_PID.get_pid((int32_t)sensors.angle.roll);
-	int32_t pidHead = heading_PID.get_pid((int32_t)sensors.headnigGyroMagn-headingToHold);
+	int32_t pidX = levelX_PID.get_pid(sensors.angle.pitch);
+	int32_t pidY = levelY_PID.get_pid(sensors.angle.roll);
+	int32_t pidHead = heading_PID.get_pid(sensors.headnigGyroMagn-headingToHold);
 	
 	motors.setOnTL(kom.pilot.throttle + pidX - pidY + pidHead);
 	motors.setOnTR(kom.pilot.throttle + pidX + pidY - pidHead);
@@ -151,9 +151,9 @@ void updatePIDParams()
 	levelY_PID.kI(kom.conf.kI_level.value);
 	levelY_PID.kD(kom.conf.kD_level.value);
 	levelY_PID.imax(kom.conf.I_level_limiter);
-	heading_PID.kP(0); // 4
+	heading_PID.kP(3); // 3
 	heading_PID.kI(0); // 1
-	heading_PID.kD(1);
+	heading_PID.kD(0);
 	heading_PID.imax(100);
 	kom.recievedConfigPacket = false; // ¿eby po¿niej wykorzystaæ jako zmienn¹ oznajmiaj¹c¹, ¿e przysz³a ramka z parametrami
 }

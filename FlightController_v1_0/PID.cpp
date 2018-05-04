@@ -9,7 +9,7 @@
 #include "PID.h"
 
 int32_t
-PID::get_pid(int32_t error)
+PID::get_pid(float error)
 {
     uint32_t tnow = millis();
     uint32_t dt = tnow - _last_t;
