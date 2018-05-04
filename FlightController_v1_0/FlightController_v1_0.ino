@@ -23,8 +23,8 @@ uint32_t last_loop = 0; // czas ostatniego wykonania funkcji komunikacji
 
 //  =====   FUNKCJE   =====
 
-void updateCommunication();   // aktualizacja komunikacji w odpowiednim czasie
-void stabilize();             // stabilizacja drona i utrzymywanie kierunku
+inline void updateCommunication();   // aktualizacja komunikacji w odpowiednim czasie
+inline void stabilize();             // stabilizacja drona i utrzymywanie kierunku
 void configureESC();          // Tryb konfiguracji ESC
 void updatePIDParams();       // Aktualizacja parametrów PID odebranymi danymi
 
@@ -69,7 +69,7 @@ void loop()
 
 
 // Funkcje trzeba wywo³ywaæ ca³y czas. Funkcja odbiera ustawion¹ iloœæ razy na sekunde.
-void updateCommunication()
+inline void updateCommunication()
 {
 	if ((millis() - last_loop) > COMMUNICATION_WAIT_TIME)
 	{
@@ -101,7 +101,7 @@ void updateCommunication()
 
 
 
-void stabilize()
+inline void stabilize()
 {
 	// DOPISAC W PILOCIE MAP'A WARTOŒCI NA ODPOWIEDNIE ZAKRESY!!!
 	// MAJA BYC WYSYLANE JUZ PRZELICZONE!!!
@@ -109,8 +109,8 @@ void stabilize()
 	sensors.readAngles();
 	sensors.readCompass();
 	
-	int32_t pidX = levelX_PID.get_pid((int32_t)sensors.angle.pitch, 1);
-	int32_t pidY = levelY_PID.get_pid((int32_t)sensors.angle.roll, 1);
+	int32_t pidX = levelX_PID.get_pid((int32_t)sensors.angle.pitch);
+	int32_t pidY = levelY_PID.get_pid((int32_t)sensors.angle.roll);
 	
 	motors.setOnTL(kom.pilot.throttle + pidX - pidY);
 	motors.setOnTR(kom.pilot.throttle + pidX + pidY);

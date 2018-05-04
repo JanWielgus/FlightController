@@ -32,6 +32,7 @@ class SensorsClass
 	void readAngles(); // roll, pitch, yaw
 	void readCompass();
 	
+	// te funkcje najlepiej wsadzic w program zeby oszczedzic na czasie
 	float tiltCompensate(Vector mag, Vector normAccel);
 	float noTiltCompensate(Vector mag);
 	float correctAngle(float heading);

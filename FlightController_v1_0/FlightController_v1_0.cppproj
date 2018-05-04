@@ -74,6 +74,7 @@
       <Value>C:/Users/Janek/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/eightanaloginputs</Value>
+      <Value>C:/Users/Janek/AppData/Local/Temp/VMBuilds/FlightController_v1_0/nano_atmega328/Release</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include</Value>
@@ -112,6 +113,7 @@
       <Value>C:/Users/Janek/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/eightanaloginputs</Value>
+      <Value>C:/Users/Janek/AppData/Local/Temp/VMBuilds/FlightController_v1_0/nano_atmega328/Release</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include</Value>
@@ -127,7 +129,7 @@
   <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
 </AvrGccCpp>
     </ToolchainSettings>
-    <VMSETTING_IncludePaths>../../../FlightController_v1_0;C:/Users/Janek/Documents/Arduino/libraries/Arduino-MPU6050;C:/Users/Janek/Documents/Arduino/libraries/Arduino-MS5611;C:/Users/Janek/Documents/Arduino/libraries/TimerOne;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Users/Janek/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/eightanaloginputs;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.2/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.3/include;C:/Users/Janek/Documents/Arduino/libraries/PacketSerial-master/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src;C:/Program Files (x86)/Arduino/libraries/Servo/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;C:/Users/Janek/Documents/Arduino/libraries/i2cdev;C:/Users/Janek/Documents/Arduino/libraries/MPU6050;</VMSETTING_IncludePaths>
+    <VMSETTING_IncludePaths>../../../FlightController_v1_0;C:/Users/Janek/Documents/Arduino/libraries/Arduino-MPU6050;C:/Users/Janek/Documents/Arduino/libraries/Arduino-MS5611;C:/Users/Janek/Documents/Arduino/libraries/TimerOne;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Users/Janek/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/eightanaloginputs;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.2/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.3/include;C:/Users/Janek/Documents/Arduino/libraries/PacketSerial-master/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src;C:/Program Files (x86)/Arduino/libraries/Servo/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;C:/Users/Janek/Documents/Arduino/libraries/i2cdev;C:/Users/Janek/Documents/Arduino/libraries/MPU6050;C:/Users/Janek/AppData/Local/Temp/VMBuilds/FlightController_v1_0/nano_atmega328/Release;</VMSETTING_IncludePaths>
     <VisualMicroSettings>
       <VisualMicroSettings>
         <arduino.board.name>nano_atmega328</arduino.board.name>
@@ -457,6 +459,7 @@ ProjectDir=C:\Users\Janek\Documents\GitHub\FlightController\FlightController_v1_
       <Value>C:/Users/Janek/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/eightanaloginputs</Value>
+      <Value>C:/Users/Janek/AppData/Local/Temp/VMBuilds/FlightController_v1_0/nano_atmega328/Release</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include</Value>
@@ -495,6 +498,7 @@ ProjectDir=C:\Users\Janek\Documents\GitHub\FlightController\FlightController_v1_
       <Value>C:/Users/Janek/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/eightanaloginputs</Value>
+      <Value>C:/Users/Janek/AppData/Local/Temp/VMBuilds/FlightController_v1_0/nano_atmega328/Release</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include</Value>
@@ -510,7 +514,7 @@ ProjectDir=C:\Users\Janek\Documents\GitHub\FlightController\FlightController_v1_
   <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
 </AvrGccCpp>
     </ToolchainSettings>
-    <VMSETTING_IncludePaths>../../../FlightController_v1_0;C:/Users/Janek/Documents/Arduino/libraries/Arduino-MPU6050;C:/Users/Janek/Documents/Arduino/libraries/Arduino-MS5611;C:/Users/Janek/Documents/Arduino/libraries/TimerOne;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Users/Janek/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/eightanaloginputs;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.2/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.3/include;C:/Users/Janek/Documents/Arduino/libraries/PacketSerial-master/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src;C:/Program Files (x86)/Arduino/libraries/Servo/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;C:/Users/Janek/Documents/Arduino/libraries/i2cdev;C:/Users/Janek/Documents/Arduino/libraries/MPU6050;</VMSETTING_IncludePaths>
+    <VMSETTING_IncludePaths>../../../FlightController_v1_0;C:/Users/Janek/Documents/Arduino/libraries/Arduino-MPU6050;C:/Users/Janek/Documents/Arduino/libraries/Arduino-MS5611;C:/Users/Janek/Documents/Arduino/libraries/TimerOne;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Users/Janek/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/eightanaloginputs;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.2/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.3/include;C:/Users/Janek/Documents/Arduino/libraries/PacketSerial-master/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src;C:/Program Files (x86)/Arduino/libraries/Servo/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;C:/Users/Janek/Documents/Arduino/libraries/i2cdev;C:/Users/Janek/Documents/Arduino/libraries/MPU6050;C:/Users/Janek/AppData/Local/Temp/VMBuilds/FlightController_v1_0/nano_atmega328/Release;</VMSETTING_IncludePaths>
     <VisualMicroSettings>
       <VisualMicroSettings>
         <arduino.board.name>nano_atmega328</arduino.board.name>

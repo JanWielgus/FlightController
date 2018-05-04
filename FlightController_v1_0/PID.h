@@ -41,7 +41,7 @@ public:
     ///
     /// @returns		The updated control output.
     ///
-    int32_t        get_pid(int32_t error, float scaler = 1.0);
+    int32_t        get_pid(int32_t error);
 
     /// Reset the PID integrator
     ///
@@ -100,6 +100,12 @@ private:
     /// http://en.wikipedia.org/wiki/Low-pass_filter.
     ///
     static const uint8_t        _fCut = 20;
+	
+public:
+	// zmienne do rysowania wykresow
+	int8_t outPro; // P
+	int8_t outInt; // I
+	int8_t outDer; // D
 };
 
 #endif
