@@ -41,10 +41,10 @@ class KomunikacjaClass
 	bitByte pong;           // 8 boolean'ów odebranych
 	struct steering         // zmienne sterowania
 	{
-		int16_t throttle;  //                       |    0 - +1000
-		int8_t tilt_TB;     // <0 is backward        | -120 - +120
-		int8_t tilt_LR;     // <0 is left            | -120 - +120
-		int8_t rotate;      // >0 - right; <0 - left | -120 - +120
+		uint16_t throttle;   //                       |    0 - +1000 do zmian
+		int16_t tilt_TB;     // <0 is backward        | -120 - +120 do zmian
+		int16_t tilt_LR;     // <0 is left            | -120 - +120 do zmian
+		int16_t rotate;      // >0 - right; <0 - left | -120 - +120 do zmian
 		}pilot;
 	floatByte zmiennaTestowa1; // do testów wysy³ania
 	
