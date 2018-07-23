@@ -9,7 +9,7 @@
  */
 
 #include "config.h"
-#include "Komunikacja.h"
+#include "Communication.h"
 #include "Sensors.h"
 #include "Motors.h"
 #include "PID.h"

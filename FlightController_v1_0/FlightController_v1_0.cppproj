@@ -74,7 +74,6 @@
       <Value>C:/Users/Janek/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/eightanaloginputs</Value>
-      <Value>C:/Users/Janek/AppData/Local/Temp/VMBuilds/FlightController_v1_0/nano_atmega328/Release</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include</Value>
@@ -113,7 +112,6 @@
       <Value>C:/Users/Janek/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/eightanaloginputs</Value>
-      <Value>C:/Users/Janek/AppData/Local/Temp/VMBuilds/FlightController_v1_0/nano_atmega328/Release</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include</Value>
@@ -459,7 +457,6 @@ ProjectDir=C:\Users\Janek\Documents\GitHub\FlightController\FlightController_v1_
       <Value>C:/Users/Janek/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/eightanaloginputs</Value>
-      <Value>C:/Users/Janek/AppData/Local/Temp/VMBuilds/FlightController_v1_0/nano_atmega328/Release</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include</Value>
@@ -498,7 +495,6 @@ ProjectDir=C:\Users\Janek\Documents\GitHub\FlightController\FlightController_v1_
       <Value>C:/Users/Janek/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/eightanaloginputs</Value>
-      <Value>C:/Users/Janek/AppData/Local/Temp/VMBuilds/FlightController_v1_0/nano_atmega328/Release</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include</Value>
@@ -819,6 +815,12 @@ ProjectDir=C:\Users\Janek\Documents\GitHub\FlightController\FlightController_v1_
     <Folder Include="__vm\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Communication.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="config.h">
       <SubType>compile</SubType>
     </Compile>
