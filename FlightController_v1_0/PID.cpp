@@ -11,25 +11,19 @@
 int32_t
 PID::get_pid(float error)
 {
-    uint32_t tnow = millis();
-    uint32_t dt = tnow - _last_t;
-    float output = 0;
-    float delta_time;
-    _last_t = tnow;
+	float output = 0;
 
-    delta_time = (float)dt * 0.001;
-
-    // Compute proportional component
+	// Compute proportional component
 	float pro = error * _kp;
 	outPro = (int8_t)pro;
-    output += pro;
+	output += pro;
 
     // Compute derivative component if time has elapsed
-    if (dt > 0) // NIE WIEM CZY POTRZEBNE BO I TAK TO SIE WYKONUJE STOSUNKOWO RZADKO !!!
+    if (dt_ms > 0) // NIE WIEM CZY POTRZEBNE BO I TAK TO SIE WYKONUJE STOSUNKOWO RZADKO !!!
 	{
         float derivative;
 
-		derivative = (error - _last_error) / delta_time;
+		derivative = (error - _last_error) / dt_sec;
 
         // discrete low pass filter, cuts out the
         // high frequency noise that can drive the controller crazy
@@ -46,7 +40,7 @@ PID::get_pid(float error)
         output += der;
 
     // Compute integral component
-        _integrator += (error * _ki) * delta_time;
+        _integrator += (error * _ki) * dt_sec;
 		
 		// anti wind-up
 		_integrator = constrain(_integrator, -_imax, _imax);
@@ -65,5 +59,20 @@ PID::reset_I()
 	// we use NAN (Not A Number) to indicate that the last 
 	// derivative value is not valid
     _last_derivative = NAN;
+}
+
+
+uint32_t PID::dt_ms = 0;
+float PID::dt_sec = 0;
+
+
+void PID::updateDeltaTime()
+{
+	static uint32_t _last_t;
+	static uint32_t tnow;
+	tnow = millis();
+	dt_ms = tnow - _last_t;
+	_last_t = tnow;
+	dt_sec = (float)dt_ms * 0.001;
 }
 

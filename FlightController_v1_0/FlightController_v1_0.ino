@@ -120,7 +120,11 @@ inline void stabilize()
 	sensors.readAngles();
 	sensors.readCompass();
 	
+	// Zaktualizuj dt dla calej klasy PID
+	PID::updateDeltaTime();
+	
 	// headingToHold += odebrany obrot; // do zrobienia !!!
+	//PID::getDeltaTime(); // zwraca dt
 	
 	// PIDy poziomowania
 	int32_t pidX = levelX_PID.get_pid(sensors.angle.pitch);
