@@ -53,6 +53,12 @@
 	#define ROLL_OFFSET  0   // Offset osi y
 	
 	#define INTERRUPT_PIN 2  // use pin 2 on Arduino Uno & most boards
+	
+	#define MAG_X_OFFSET -41
+	#define MAG_Y_OFFSET -105
+	#define MAG_COMP_ANGLE 70 // kat +/- od/do ktorego jest przeprowadzana kompensacja przechylenia akcelerometrem
+	
+	#define GYRO_Z_OFFSET 43.15
 
 
 //<<<<<<<<<=====================     MOTORS     =====================>>>>>>>>>
