@@ -122,9 +122,16 @@ inline void stabilize()
 	
 	// headingToHold += odebrany obrot; // do zrobienia !!!
 	
+	// PIDy poziomowania
 	int32_t pidX = levelX_PID.get_pid(sensors.angle.pitch);
 	int32_t pidY = levelY_PID.get_pid(sensors.angle.roll);
-	int32_t pidHead = heading_PID.get_pid(sensors.headnigGyroMagn-headingToHold);
+	
+	// PID yaw
+	static float headingError;
+	headingError = headingToHold-sensors.headnigGyroMagn;
+	if (headingError >= 180) headingError -= 360;
+	else if (headingError <= -180) headingError += 360;
+	int32_t pidHead = heading_PID.get_pid(headingError);
 	
 	motors.setOnTL(kom.pilot.throttle + pidX - pidY + pidHead);
 	motors.setOnTR(kom.pilot.throttle + pidX + pidY - pidHead);
