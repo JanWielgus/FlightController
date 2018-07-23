@@ -15,7 +15,6 @@ void dmpDataReady()
 void SensorsClass::init()
 {
 	Wire.begin();
-	Wire.setClock(400000L);
 	
 	//////////////////////////////////////////////////////////////////////////
 	// MPU6050
@@ -63,6 +62,9 @@ void SensorsClass::init()
 		delay(500);
 		tempCount++;
 	}
+	
+	// W inicjalizacji kompasu jest tez Wire.begin() dlatego ustawienie zegara nastêpuje po ostatniej inicjalizacji
+	Wire.setClock(400000L);
 	
 	if (tempCount <= 1) // jezeli uruchomil sie
 	{
