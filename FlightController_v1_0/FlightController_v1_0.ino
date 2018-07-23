@@ -133,10 +133,10 @@ inline void stabilize()
 	else if (headingError <= -180) headingError += 360;
 	int32_t pidHead = heading_PID.get_pid(headingError);
 	
-	motors.setOnTL(kom.pilot.throttle + pidX - pidY + pidHead);
-	motors.setOnTR(kom.pilot.throttle + pidX + pidY - pidHead);
-	motors.setOnBR(kom.pilot.throttle - pidX + pidY + pidHead);
-	motors.setOnBL(kom.pilot.throttle - pidX - pidY - pidHead);
+	motors.setOnTL(kom.pilot.throttle + pidX - pidY - pidHead);
+	motors.setOnTR(kom.pilot.throttle + pidX + pidY + pidHead);
+	motors.setOnBR(kom.pilot.throttle - pidX + pidY - pidHead);
+	motors.setOnBL(kom.pilot.throttle - pidX - pidY + pidHead);
 }
 
 
