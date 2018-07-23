@@ -11,7 +11,18 @@
 
 /// @class	PID
 /// @brief	Object managing one PID control
-class PID {
+class PID
+{
+// Statyczne zmienne i metody
+private:
+	static uint32_t dt_ms;  // [ms]
+	static float dt_sec;    // [s]
+	
+public:
+	static void updateDeltaTime(); // Aktualizacja dt dla wszystkich obiektow klasy PID
+	static float getDeltaTime() { return dt_sec; }
+	
+// Reszta kodu
 public:
 
     PID(const float &   initial_p = 0.0,
@@ -50,7 +61,7 @@ public:
     /// @name	parameter accessors
     //@{
 
-
+/*
     float        kP() const {
         return _kp;
     }
@@ -62,35 +73,40 @@ public:
     }
     int16_t        imax() const {
         return _imax;
-    }
+    }*/
 
-    void        kP(const float v)               {
+    void kP(const float v)
+	{
         _kp=v;
     }
-    void        kI(const float v)               {
+    void kI(const float v)
+	{
         _ki=v;
     }
-    void        kD(const float v)               {
+    void kD(const float v)
+	{
         _kd=v;
     }
-    void        imax(const int16_t v)   {
+    void imax(const int16_t v)
+	{
         _imax=abs(v);
     }
-
-    float        get_integrator() const {
+/*
+    float        get_integrator() const
+	{
         return _integrator;
     }
+	*/
 
 private:
-    float        _kp;
-    float        _ki;
-    float        _kd;
-    int16_t        _imax;
+    float _kp;
+    float _ki;
+    float _kd;
+    int16_t _imax;
 
-    float           _integrator;                                ///< integrator value
-    int32_t         _last_error;                                ///< last error for derivative
-    float           _last_derivative;                           ///< last derivative for low-pass filter
-    uint32_t        _last_t;                                    ///< last time get_pid() was called in millis
+    float _integrator;                 ///< integrator value
+    int32_t _last_error;               ///< last error for derivative
+    float _last_derivative;            ///< last derivative for low-pass filter
 
     int32_t         _get_pid(int32_t error, uint16_t dt, float scaler);
 
