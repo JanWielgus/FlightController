@@ -17,7 +17,7 @@
 
 //  =====   ZMIENNE   =====
 
-uint32_t last_loop = 0; // czas ostatniego wykonania funkcji komunikacji
+uint32_t last_loop_time = 0; // czas ostatniego wykonania funkcji komunikacji
 
 float headingToHold = 0; // kat do utrzymania przez drona
 
@@ -41,15 +41,11 @@ PID heading_PID;
 
 void setup()
 {
-	kom.init();                                       // inicjalizacja komunikacji
-	sensors.init();                                   // inicjalizacja wszystkich czujników
-	motors.init();                                    // inicjalizacja silników
-	
-	// Dopóki nie odbierze parametrów lotu od pilota
-	while (!kom.recievedConfigPacket)
-		kom.odbierz();
+	com.init();                  // inicjalizacja komunikacji
+	sensors.init();              // inicjalizacja wszystkich czujników
+	motors.init();               // inicjalizacja silników
 
-	updatePIDParams();
+	updatePIDParams(); // ustawia takie parametry PID jakie sa ustawione w konstruktorze klasy komunikacji
 	
 	delay(100);
 }
@@ -78,27 +74,24 @@ void loop()
 // Funkcje trzeba wywo³ywaæ ca³y czas. Funkcja odbiera ustawion¹ iloœæ razy na sekunde.
 inline void updateCommunication()
 {
-	if ((millis() - last_loop) > COMMUNICATION_WAIT_TIME)
+	if ((millis() - last_loop_time) > COMMUNICATION_WAIT_TIME)
 	{
-		kom.odbierz();
-		kom.updateSignal();
+		com.odbierz();
 		
 		// Jeœli odebrano ramkê z parametrami -> zaktualizuj parametry
-		if (kom.recievedConfigPacket) updatePIDParams();
+		if (com.pidParamsReceivedFlag) updatePIDParams();
 		
-		if (kom.isSignal())
+		if (com.connectionState())
 		{
-			//kom.zmienna1 = 150;
-			if (kom.pilot.throttle < 5)
+			if (com.armState < 50)
 			{
 				motors.armMotors(false);
 				headingToHold = sensors.headnigGyroMagn;
 			}
-			else motors.armMotors(true);
+			else motors.armMotors(true); // silniki uzbrojone
 		}
 		else
 		{
-			//kom.zmienna1 = 0;
 			motors.armMotors(false);
 		}
 		
@@ -106,7 +99,7 @@ inline void updateCommunication()
 		//kom.wyslij(DRON_RAMKA_TEST_TYPE);
 		
 		
-		last_loop = millis();
+		last_loop_time = millis();
 	}
 }
 
@@ -114,9 +107,6 @@ inline void updateCommunication()
 
 inline void stabilize()
 {
-	// DOPISAC W PILOCIE MAP'A WARTOŒCI NA ODPOWIEDNIE ZAKRESY!!!
-	// MAJA BYC WYSYLANE JUZ PRZELICZONE!!!
-	// THROTTLE ju¿ przeloczane
 	sensors.readAngles();
 	sensors.readCompass();
 	
@@ -137,10 +127,10 @@ inline void stabilize()
 	else if (headingError <= -180) headingError += 360;
 	int32_t pidHead = heading_PID.get_pid(headingError);
 	
-	motors.setOnTL(kom.pilot.throttle + pidX - pidY - pidHead);
-	motors.setOnTR(kom.pilot.throttle + pidX + pidY + pidHead);
-	motors.setOnBR(kom.pilot.throttle - pidX + pidY - pidHead);
-	motors.setOnBL(kom.pilot.throttle - pidX - pidY + pidHead);
+	motors.setOnTL(com.pilot.throttle + pidX - pidY - pidHead);
+	motors.setOnTR(com.pilot.throttle + pidX + pidY + pidHead);
+	motors.setOnBR(com.pilot.throttle - pidX + pidY - pidHead);
+	motors.setOnBL(com.pilot.throttle - pidX - pidY + pidHead);
 }
 
 
@@ -149,29 +139,30 @@ void configureESC() // u¿ywane do kalibracji ESC gdy trzeba wszystkie ustawiæ na
 {
 	motors.armMotors(true);
 	
-	motors.setOnTL(kom.pilot.throttle);
-	motors.setOnTR(kom.pilot.throttle);
-	motors.setOnBR(kom.pilot.throttle);
-	motors.setOnBL(kom.pilot.throttle);
+	motors.setOnTL(com.pilot.throttle);
+	motors.setOnTR(com.pilot.throttle);
+	motors.setOnBR(com.pilot.throttle);
+	motors.setOnBL(com.pilot.throttle);
 }
 
 
 
 void updatePIDParams()
 {
-	levelX_PID.kP(kom.conf.kP_level.value);
-	levelX_PID.kI(kom.conf.kI_level.value);
-	levelX_PID.kD(kom.conf.kD_level.value);
-	levelX_PID.imax(kom.conf.I_level_limiter);
-	levelY_PID.kP(kom.conf.kP_level.value);
-	levelY_PID.kI(kom.conf.kI_level.value);
-	levelY_PID.kD(kom.conf.kD_level.value);
-	levelY_PID.imax(kom.conf.I_level_limiter);
-	heading_PID.kP(3); // 3
-	heading_PID.kI(0); // 1
-	heading_PID.kD(0);
-	heading_PID.imax(100);
-	kom.recievedConfigPacket = false; // ¿eby po¿niej wykorzystaæ jako zmienn¹ oznajmiaj¹c¹, ¿e przysz³a ramka z parametrami
+	levelX_PID.kP(com.conf.levelPID.kP.value);
+	levelX_PID.kI(com.conf.levelPID.kI.value);
+	levelX_PID.kD(com.conf.levelPID.kD.value);
+	levelX_PID.imax(com.conf.levelPID.Imax);
+	levelY_PID.kP(com.conf.levelPID.kP.value);
+	levelY_PID.kI(com.conf.levelPID.kI.value);
+	levelY_PID.kD(com.conf.levelPID.kD.value);
+	levelY_PID.imax(com.conf.levelPID.Imax);
+	heading_PID.kP(com.conf.yawPID.kP.value); // 3
+	heading_PID.kI(com.conf.yawPID.kI.value); // 1
+	heading_PID.kD(com.conf.yawPID.kD.value);
+	heading_PID.imax(com.conf.yawPID.Imax);
+	
+	com.pidParamsReceivedFlag = false; // Juz odebrano dlatego false
 }
 
 

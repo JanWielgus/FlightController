@@ -12,7 +12,7 @@
 #define CONFIG_H_
 
 
-//<<<<<<<<<=====================     KOMUNIKACJA     =====================>>>>>>>>>
+//<<<<<<<<<=====================     COMMUNICATION     =====================>>>>>>>>>
 
 	//-------Pamiêtaj o zmianie wielkoœci ramek po zmianie protoko³u!!!-------
 	
@@ -25,26 +25,40 @@
 
 	// Szablon: nadawca_RAMKA_nazwa_SIZE/TYPE
 	
-	// -- odebrane --
-	#define PILOT_RAMKA_STEROWANIE_SIZE 3
-	#define PILOT_RAMKA_STEROWANIE_TYPE 0x00
+	// --  SEND  --
+		// Wersja 1 - rozszerzona (pelna)
+		#define PILOT_RAMKA_VER1_SIZE 26
+		#define PILOT_RAMKA_VER1_TYPE 0x00
 	
-	#define PILOT_RAMKA_DANE_SIZE 4
-	#define PILOT_RAMKA_DANE_TYPE 0x01
+		// Wersja 2 - podstawowa (narazie bez)
+		//#define PILOT_RAMKA_VER2_SIZE x
+		//#define PILOT_RAMKA_VER1_TYPE 0x01
 	
-	#define PILOT_RAMKA_TEST_SIZE 8
-	#define PILOT_RAMKA_TEST_TYPE 0x02
+		// Wersja 3 - parametry PID
+		#define PILOT_RAMKA_VER3_SIZE 41
+		#define PILOT_RAMKA_VER3_TYPE 0x02
 	
-	#define PILOT_RAMKA_CONFIG_SIZE 23
-	#define PILOT_RAMKA_CONFIG_TYPE 0x03
-	// -- nadawane --
-	#define DRON_RAMKA_POZYCJA_SIZE 6
-	#define DRON_RAMKA_POZYCJA_TYPE 0x05
+	// --  RECEIVE  --
+		// Wersja 1 - rozszerzona (pelna)
+		#define DRON_RAMKA_VER1_SIZE 32
+		#define DRON_RAMKA_VER1_TYPE 0x00
 	
-	#define DRON_RAMKA_TEST_SIZE 6
-	#define DRON_RAMKA_TEST_TYPE 0x06
+		// Wersja 2 - podstawowa (narazie bez)
+		//#define DRON_RAMKA_VER2_SIZE x
+		//#define DRON_RAMKA_VER2_TYPE 0x01
+	
+		// Wersja 3 - po uzbrojeniu (takze PID request)
+		#define DRON_RAMKA_VER3_SIZE 20
+		#define DRON_RAMKA_VER3_TYPE 0x02
 
-	#define MAX_ILOSC_ZGUBIONYCH_RAMEK 2    // Po prezkroczeniu wykrywany jest brak po³¹czenia z pilotem
+	#define MAX_LOST_PACKETS 4          // If more -> signal lost mode
+	
+	
+	// transmission powers
+	#define DBM20 4  // 20dBm
+	#define DBM14 3  // 14dBm
+	#define DBM8 2  // 8dBm
+	#define DBM2 1  // 2dBm
 
 
 //<<<<<<<<<=====================     SENSORS     =====================>>>>>>>>>

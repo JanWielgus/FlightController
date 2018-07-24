@@ -827,12 +827,6 @@ ProjectDir=C:\Users\Janek\Documents\GitHub\FlightController\FlightController_v1_
     <Compile Include="helper_3dmath.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Komunikacja.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Komunikacja.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="Motors.cpp">
       <SubType>compile</SubType>
     </Compile>

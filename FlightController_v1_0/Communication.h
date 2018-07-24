@@ -69,7 +69,7 @@ class CommunicationClass
 	bitByte option;
 	
 	
-	// == SENT ==
+	// == RECEIVED ==
 		struct //steering
 		{
 			uint16_t throttle;
@@ -81,8 +81,8 @@ class CommunicationClass
 		uint16_t directionToPilot;    // Kierunek do pilota [stopnie]
 		uint8_t flightMode;             // Tryb lotu
 		uint8_t armState;               // Uzbrajanie
-		uint8_t randomTxValue;          // Losowa wartosc dla drona	
-		bitByte bitsTx1, bitsTx2;       // Bity do wyslania
+		uint8_t randomRxValue;          // Losowa wartosc dla drona	
+		bitByte bitsRx1, bitsRx2;       // Bity do wyslania
 		uint8_t signalLostScenario;     // Scenariusz utraty zasiegu
 		// 6x uint8 zapasu
 		
@@ -109,17 +109,17 @@ class CommunicationClass
 			pidParams altHoldPID;
 		}conf;
 	
-	// == RECEIVED ==
+	// == SENT ==
 		// ODPOWIEDNIE PRZETWARZANIE ODEBRANYCH ZMIENNYCH W FUNKCJI ODBIERANIA (na przyklad dzielenie przez 10)
 		float cellVoltage[6];              // napiecie na poszeczegolnych celach [decy V]
-		uint8_t pitch, roll;               // przechylenie i pochylenie drona [stopnie]
+		int8_t pitch, roll;                // przechylenie i pochylenie drona [stopnie]
 		uint16_t heading;                  // heading (kat wzgledem polnocy) [stopnie]
 		int16_t altitude;                  // wysokosc [cm]
 		int32Byte pos_longInt, pos_latInt; // Dlugosc i szerokosc geograficzna * 10^6? (zobaczyc czy to czy float)
 		//float pos_longF, pos_latF;       // alternatywa
-		uint8_t randomRxValue;             // Odebrana wartosc losowa
+		//uint8_t randomTxValue;           // Pilot od razu wysyla to co odebral wiec nie potrzba osobnej zmiennej
 		bitByte errorList1, errorList2;    // Bledy
-		bitByte bitsRx1;// bitsRx2;        // Bity odebrane
+		bitByte bitsTx1;// bitsTx2;        // Bity odebrane
 		// 6 x uint8 zapasu
 		
 		// Takeoff values
@@ -133,13 +133,22 @@ class CommunicationClass
 		
 	
 	
+	bool pidParamsReceivedFlag = false; // (moze zmieniac tylko komunikacja!!!) true - odebrano nowe parametry PID i trzeba je zaktualizowac (i ustawic to na false), false - nic sie nie stalo
+	
  private:
 	uint16_t lost_packets;       // number of lost packets
-	bool if_odbierzPriv;         // true if odbierzPriv was called
 	uint32_t con_lost_time;      // time when communication lost
 	uint32_t timeAfterSL;        // time after communication was lost (UPDATED WHEN connectionState() called !!!)
 	
-	bool changeInTxParams = false; // true - byla zmiana w ustawieniach nadajnika i trzba ponownie wyslac parametry
+	bool if_odbierzPrivFlag;         // true if odbierzPriv was called
+	bool changeInTxParamsFlag = false; // true - byla zmiana w ustawieniach nadajnika i trzba ponownie wyslac parametry
+	
+	/*
+	struct // flagi - cos sie stalo albo cos nie
+	{
+		
+	}flag;
+	*/
 };
 
 extern CommunicationClass com;

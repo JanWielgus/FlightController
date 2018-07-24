@@ -17,6 +17,29 @@ CommunicationClass::CommunicationClass()
 {
 	//defaults:
 	lost_packets = 10; // domyslnie nie ma polacznenia
+	
+	pilot.throttle = 0;
+	flightMode = 0;
+	armState = 0; // x<50 - jest rozbrojony
+	signalLostScenario = 2;
+	for (int i=0; i<6; i++) cellVoltage[i] = 0;
+	pid_params_request = true;
+	
+	// domyslne parametry PID
+	conf.levelPID.kP.value = 0;
+	conf.levelPID.kI.value = 0;
+	conf.levelPID.kD.value = 0;
+	conf.levelPID.Imax = 0;
+	//--
+	conf.yawPID.kP.value = 0;
+	conf.yawPID.kI.value = 0;
+	conf.yawPID.kD.value = 0;
+	conf.yawPID.Imax = 0;
+	//--
+	conf.altHoldPID.kP.value = 0;
+	conf.altHoldPID.kI.value = 0;
+	conf.altHoldPID.kD.value = 0;
+	conf.altHoldPID.Imax =0;
 }
 
 
@@ -39,12 +62,12 @@ void CommunicationClass::init()
 
 void CommunicationClass::odbierz()
 {
-	if_odbierzPriv = false;
+	if_odbierzPrivFlag = false;
 	
 	pSerial.update();
 	
 	// check if connection lost
-	if (if_odbierzPriv)
+	if (if_odbierzPrivFlag)
 		lost_packets=0;
 	else
 		lost_packets++;
@@ -58,25 +81,23 @@ void CommunicationClass::odbierz()
 void CommunicationClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 {
 	// VER 1 - pelna
-	if (bufferR[1]==DRON_RAMKA_VER1_TYPE && PacketSize==DRON_RAMKA_VER1_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
+	if (bufferR[1]==PILOT_RAMKA_VER1_TYPE && PacketSize==PILOT_RAMKA_VER1_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
 	{
-		for (int i=0; i<6; i++)
-			cellVoltage[i] = bufferR[i+2] / 10.0;
-		pitch = bufferR[8];
-		roll = bufferR[9];
-		heading = word(bufferR[11], bufferR[10]);
-		altitude = word(bufferR[13], bufferR[12]);
-		for (int i=0; i<4; i++)
-			pos_longInt.bajt[i] = bufferR[i+14];
-		for (int i=0; i<4; i++)
-			pos_longInt.bajt[i] = bufferR[i+18];
-		randomRxValue = bufferR[22];
-		errorList1.bajt = bufferR[23];
-		errorList2.bajt = bufferR[24];
-		bitsRx1 = bufferR[25];
-		// zapas 6 x uint8 (ostatnie [31])
+		pilot.throttle = word(bufferR[3], bufferR[2]);
+		pilot.rotate = word(bufferR[5], bufferR[4]);
+		pilot.tilt_TB = word(bufferR[7], bufferR[6]);
+		pilot.tilt_LR = word(bufferR[9], bufferR[8]);
+		distanceFromPilot = word(bufferR[11], bufferR[10]);
+		directionToPilot = word(bufferR[13], bufferR[12]);
+		flightMode = bufferR[14];
+		armState = bufferR[15];
+		randomRxValue = bufferR[16];
+		bitsRx1.bajt = bufferR[17];
+		bitsRx2.bajt = bufferR[18];
+		signalLostScenario = bufferR[19];
+		// zapas 6 x uint8 (ostatnie [25])
 		
-		if_odbierzPriv = true;
+		if_odbierzPrivFlag = true;
 	}
 	
 	/*
@@ -84,16 +105,36 @@ void CommunicationClass::odbierzPriv(const uint8_t* bufferR, size_t PacketSize)
 	*/
 	
 	// VER 3 - po uzbrojeniu i PID request
-	else if (bufferR[1]==DRON_RAMKA_VER3_TYPE && PacketSize==DRON_RAMKA_VER3_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
+	else if (bufferR[1]==PILOT_RAMKA_VER3_TYPE && PacketSize==PILOT_RAMKA_VER3_SIZE && sprawdzSumeKontr(bufferR, PacketSize))
 	{
+		// leveling
 		for (int i=0; i<4; i++)
-			takeoff.posLongInt.bajt[i] = bufferR[i+2];
+			conf.levelPID.kP.bajt[i] = bufferR[i+2];
 		for (int i=0; i<4; i++)
-			takeoff.posLatInt.bajt[i] = bufferR[i+6];
+			conf.levelPID.kI.bajt[i] = bufferR[i+6];
 		for (int i=0; i<4; i++)
-			takeoff.pressure.bajt[i] = bufferR[i+10];
+			conf.levelPID.kD.bajt[i] = bufferR[i+10];
+		conf.levelPID.Imax = bufferR[14];
+		
+		// yaw
+		for (int i=0; i<4; i++)
+			conf.yawPID.kP.bajt[i] = bufferR[i+15];
+		for (int i=0; i<4; i++)
+			conf.yawPID.kI.bajt[i] = bufferR[i+19];
+		for (int i=0; i<4; i++)
+			conf.yawPID.kD.bajt[i] = bufferR[i+23];
+		conf.yawPID.Imax = bufferR[27];
+		
+		// alt hold
+		for (int i=0; i<4; i++)
+			conf.altHoldPID.kP.bajt[i] = bufferR[28];
+		for (int i=0; i<4; i++)
+			conf.altHoldPID.kI.bajt[i] = bufferR[32];
+		for (int i=0; i<4; i++)
+			conf.altHoldPID.kD.bajt[i] = bufferR[36];
+		conf.altHoldPID.Imax = bufferR[40];
+		
 		// zapas 5 x uint8
-		pid_params_request = bufferR[19];
 		
 		// if_odbierzPriv = true; // Tu raczej nie ma znaczenia, musi byc odebrana VER1
 	}
@@ -106,32 +147,30 @@ void CommunicationClass::wyslij(uint8_t typRamki)
 	buforT[1] = typRamki;
 	
 	// VER1 - pelna
-	if (typRamki == PILOT_RAMKA_VER1_TYPE)
+	if (typRamki == DRON_RAMKA_VER1_TYPE)
 	{
-		buforT[2] = lowByte(pilot.throttle); // Ewentualnie this->...
-		buforT[3] = highByte(pilot.throttle);
-		buforT[4] = lowByte(pilot.rotate);
-		buforT[5] = highByte(pilot.rotate);
-		buforT[6] = lowByte(pilot.tilt_TB);
-		buforT[7] = highByte(pilot.tilt_TB);
-		buforT[8] = lowByte(pilot.tilt_LR);
-		buforT[9] = highByte(pilot.tilt_LR);
-		buforT[10] = lowByte(distanceFromPilot);
-		buforT[11] = highByte(distanceFromPilot);
-		buforT[12] = lowByte(directionToPilot);
-		buforT[13] = highByte(directionToPilot);
-		buforT[14] = flightMode;
-		buforT[15] = armState;
-		buforT[16] = randomTxValue;
-		buforT[17] = bitsTx1.bajt;
-		buforT[18] = bitsTx2.bajt;
-		buforT[19] = signalLostScenario;
+		for (int i=0; i<6; i++)
+			buforT[i+2] = uint8_t(cellVoltage[i]*10.0);
+		buforT[8] = pitch;
+		buforT[9] = roll;
+		buforT[10] = lowByte(heading);
+		buforT[11] = highByte(heading);
+		buforT[12] = lowByte(altitude);
+		buforT[13] = highByte(altitude);
+		for (int i=0; i<4; i++)
+			buforT[i+14] = pos_longInt.bajt[i];
+		for (int i=0; i<4; i++)
+			buforT[i+18] = pos_latInt.bajt[i];
+		buforT[22] = randomRxValue;
+		buforT[23] = errorList1.bajt;
+		buforT[24] = errorList2.bajt;
+		buforT[25] = bitsTx1.bajt;
 		for (int i=0; i<6; i++) // zerowanie zapasu
-			buforT[i+20] = 0;
-		// zapas 6 x uint8 (ostatnie [25])
+			buforT[i+26] = 0;
+		// zapas 6 x uint8 (ostatnie [31])
 		
-		buforT[0] = liczSumeKontr(buforT, PILOT_RAMKA_VER1_SIZE);
-		pSerial.send(buforT, PILOT_RAMKA_VER1_SIZE);
+		buforT[0] = liczSumeKontr(buforT, DRON_RAMKA_VER1_SIZE);
+		pSerial.send(buforT, DRON_RAMKA_VER1_SIZE);
 	}
 	
 	/*
@@ -139,37 +178,23 @@ void CommunicationClass::wyslij(uint8_t typRamki)
 	*/
 	
 	// VER3 - parametry PID
-	else if (typRamki == PILOT_RAMKA_VER3_TYPE)
+	else if (typRamki == DRON_RAMKA_VER3_TYPE)
 	{
-		// Leveling
 		for (int i=0; i<4; i++)
-			buforT[i+2] = conf.levelPID.kP.bajt[i];
+			buforT[i+2] = takeoff.posLongInt.bajt[i];
 		for (int i=0; i<4; i++)
-			buforT[i+6] = conf.levelPID.kI.bajt[i];
+			buforT[i+6] = takeoff.posLatInt.bajt[i];
 		for (int i=0; i<4; i++)
-			buforT[i+10] = conf.levelPID.kD.bajt[i];
-		buforT[14] = conf.levelPID.Imax;
+			buforT[i+10] = takeoff.pressure.bajt[i];
+			
+		for (int i=0; i<5; i++) // zerowanie zapasu
+			buforT[i+14] = 0;
+		// zapas 5 x uint8
 		
-		// Yaw
-		for (int i=0; i<4; i++)
-			buforT[i+15] = conf.yawPID.kP.bajt[i];
-		for (int i=0; i<4; i++)
-			buforT[i+19] = conf.yawPID.kI.bajt[i];
-		for (int i=0; i<4; i++)
-			buforT[i+23] = conf.yawPID.kD.bajt[i];
-		buforT[27] = conf.yawPID.Imax;
+		buforT[19] = pid_params_request;
 		
-		// Alt hold
-		for (int i=0; i<4; i++)
-			buforT[i+28] = conf.altHoldPID.kP.bajt[i];
-		for (int i=0; i<4; i++)
-			buforT[i+32] = conf.altHoldPID.kI.bajt[i];
-		for (int i=0; i<4; i++)
-			buforT[i+36] = conf.altHoldPID.kD.bajt[i];
-		buforT[40] = conf.altHoldPID.Imax;
-		
-		buforT[0] = liczSumeKontr(buforT, PILOT_RAMKA_VER3_SIZE);
-		pSerial.send(buforT, PILOT_RAMKA_VER3_SIZE);
+		buforT[0] = liczSumeKontr(buforT, DRON_RAMKA_VER3_SIZE);
+		pSerial.send(buforT, DRON_RAMKA_VER3_SIZE);
 	}
 }
 
@@ -237,7 +262,7 @@ void CommunicationClass::setTransmitPower(bool b1, bool b2)
 		option.b6 = 0;
 		option.b7 = 0;
 	}
-	changeInTxParams = true; // send new params to module
+	changeInTxParamsFlag = true; // send new params to module
 }
 
 
@@ -271,10 +296,10 @@ void CommunicationClass::setTransmitPower()
 {
 	if (connectionState())
 	{
-		if (switchesR.b0 == 0) // jesli moc ustawia pilot
+		if (bitsRx2.b0 == 0) // jesli moc ustawia pilot
 		{
 			// requested transmission power
-			setTransmitPower(switchesR.b6, switchesR.b5);
+			setTransmitPower(bitsRx2.b2, bitsRx2.b1);
 		}
 		else
 			autoTransmitPower();
@@ -305,7 +330,7 @@ void CommunicationClass::setOTASpeed(bool b1)
 		sped.b6 = 0;
 		sped.b7 = 0;
 	}
-	changeInTxParams = true;
+	changeInTxParamsFlag = true;
 }
 
 
@@ -320,12 +345,12 @@ void CommunicationClass::autoTransmitPower()
 
 void CommunicationClass::writeParamsToTransceiver()
 {
-	if (changeInTxParams)
+	if (changeInTxParamsFlag)
 	{
 		// write if was change in parameters
 		//...
 		
-		changeInTxParams = false;
+		changeInTxParamsFlag = false;
 	}
 	return;
 }
@@ -334,6 +359,7 @@ void CommunicationClass::writeParamsToTransceiver()
 
 void CommunicationClass::getTransceiverParams()
 {
+	/*
 	// power
 	settingsConfirmation.b7 = switchesR.b6;
 	settingsConfirmation.b6 = switchesR.b5;
@@ -344,4 +370,5 @@ void CommunicationClass::getTransceiverParams()
 	
 	// OTA speed
 	settingsConfirmation.b3 = switchesR.b2;
+	*/
 }
