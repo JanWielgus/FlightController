@@ -85,14 +85,14 @@ inline void updateCommunication()
 		{
 			if (com.armState < 50)
 			{
-				motors.armMotors(false);
-				headingToHold = sensors.headnigGyroMagn;
+				motors.setMotors(IDLE);
+				headingToHold = sensors.headnigGyroMagn; // po uzbrojeniu trzymaj kat jaki byk podczas uzbrajania
 			}
-			else motors.armMotors(true); // silniki uzbrojone
+			else motors.setMotors(ARMED); // silniki uzbrojone
 		}
 		else
 		{
-			motors.armMotors(false);
+			motors.setMotors(IDLE);
 		}
 		
 		//kom.zmiennaTestowa1.value = 1723.5;
@@ -113,12 +113,11 @@ inline void stabilize()
 	// Zaktualizuj dt dla calej klasy PID
 	PID::updateDeltaTime();
 	
-	// headingToHold += odebrany obrot; // do zrobienia !!!
-	//PID::getDeltaTime(); // zwraca dt
+	headingToHold += (float(com.pilot.rotate)*PID::getDeltaTime()); // obliczanie kata do utrzymania na podstawie wartosci drazka
 	
 	// PIDy poziomowania
-	int32_t pidX = levelX_PID.get_pid(sensors.angle.pitch);
-	int32_t pidY = levelY_PID.get_pid(sensors.angle.roll);
+	int32_t pidX = levelX_PID.get_pid(sensors.angle.pitch + (com.pilot.tilt_TB/10)); // zmienic tu na - jesli leci w zla strone
+	int32_t pidY = levelY_PID.get_pid(sensors.angle.roll + (com.pilot.tilt_LR/10));
 	
 	// PID yaw
 	static float headingError;
@@ -137,7 +136,7 @@ inline void stabilize()
 
 void configureESC() // u¿ywane do kalibracji ESC gdy trzeba wszystkie ustawiæ na max/min
 {
-	motors.armMotors(true);
+	motors.setMotors(ARMED);
 	
 	motors.setOnTL(com.pilot.throttle);
 	motors.setOnTR(com.pilot.throttle);
