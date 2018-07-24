@@ -18,16 +18,16 @@ void MotorsClass::init()
 
 
 
-void MotorsClass::armMotors(bool _state)
+void MotorsClass::setMotors(bool _state)
 {
-	armState = _state;
+	armStateFlag = _state;
 }
 
 
 
 void MotorsClass::setOnAllMotors(int16_t _val)
 {
-	if (armState)
+	if (armStateFlag)
 	{
 		_val += 1000;
 		_val = constrain(_val, MOTOR_MIN, MOTOR_MAX);
@@ -50,7 +50,7 @@ void MotorsClass::setOnAllMotors(int16_t _val)
 
 void MotorsClass::setOnTL(int16_t _val)
 {
-	if (armState)
+	if (armStateFlag)
 	{
 		_val += 1000;
 		_val = constrain(_val, MOTOR_MIN, MOTOR_MAX);
@@ -64,7 +64,7 @@ void MotorsClass::setOnTL(int16_t _val)
 
 void MotorsClass::setOnTR(int16_t _val)
 {
-	if (armState)
+	if (armStateFlag)
 	{
 		_val += 1000;
 		_val = constrain(_val, MOTOR_MIN, MOTOR_MAX);
@@ -78,7 +78,7 @@ void MotorsClass::setOnTR(int16_t _val)
 
 void MotorsClass::setOnBL(int16_t _val)
 {
-	if (armState)
+	if (armStateFlag)
 	{
 		_val += 1000;
 		_val = constrain(_val, MOTOR_MIN, MOTOR_MAX);
@@ -92,7 +92,7 @@ void MotorsClass::setOnBL(int16_t _val)
 
 void MotorsClass::setOnBR(int16_t _val)
 {
-	if (armState)
+	if (armStateFlag)
 	{
 		_val += 1000;
 		_val = constrain(_val, MOTOR_MIN, MOTOR_MAX);

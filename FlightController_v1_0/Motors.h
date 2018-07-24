@@ -14,6 +14,10 @@
 #include <Servo.h>
 #include "config.h"
 
+// Stany silnikow
+#define ARMED 1
+#define IDLE 0
+
 
 class MotorsClass
 {
@@ -27,7 +31,7 @@ class MotorsClass
  public:
 	void init();                        // inicjalizacja
 	void setOnAllMotors(int16_t _val);  // parametr od 0 do 1000
-	void armMotors(bool _state);        // Uzbrajanie/rozzbrajanie silników (true - arm, false - disarm)
+	void setMotors(bool _state);        // Uzbrajanie/rozzbrajanie silników (true - arm, false - disarm)
 	
 	// Ustawianie na odpowiednie silniki
 	void setOnTL(int16_t _val);    // parametr od 0 do 1000
@@ -40,7 +44,7 @@ class MotorsClass
 	
 	
  private:
-	bool armState = false;    // Zmienna stanu uzbrojenia silników
+	bool armStateFlag = false;    // Zmienna stanu uzbrojenia silników
 	
 };
 
