@@ -1,6 +1,12 @@
 # FlightController
 The project of mulitrotor flight controller by Jan Wielgus
 
+---
+
+### This project is no longer developed. Current flight controller project is STM_FlightController and STM_FlightControllerRemote
+
+---
+
 ### Branch naming conventions:
 - stable: tested and working version
 - master: under development
